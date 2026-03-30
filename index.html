@@ -92,6 +92,11 @@ header { padding: 20px 0; border-bottom: 1px solid var(--border); margin-bottom:
 #crop-canvas { max-width: 100%; max-height: 70vh; display: block; }
 .crop-box { position: absolute; border: 2px solid #fff; border-radius: 50%; box-shadow: 0 0 0 9999px rgba(0,0,0,0.6); cursor: move; }
 .crop-handle { position: absolute; width: 30px; height: 30px; background: #fff; border-radius: 50%; right: -15px; bottom: -15px; cursor: nwse-resize; border: 2px solid var(--accent); }
+
+/* FIX: PROHLÍŽEČ PRO IPHONE */
+#iphone-viewer { display: none; position: fixed; inset: 0; background: black; z-index: 9999; flex-direction: column; align-items: center; justify-content: center; }
+#iphone-viewer img, #iphone-viewer iframe { max-width: 100%; max-height: 85%; border: none; }
+.iphone-viewer-close { position: absolute; top: 40px; right: 20px; color: white; background: rgba(255,255,255,0.2); padding: 10px 20px; border-radius: 8px; font-weight: bold; cursor: pointer; font-family: sans-serif; }
 </style>
 </head>
 <body>
@@ -183,13 +188,31 @@ header { padding: 20px 0; border-bottom: 1px solid var(--border); margin-bottom:
 
 <div class="crop-overlay" id="crop-overlay"><div class="crop-container"><canvas id="crop-canvas"></canvas><div class="crop-box" id="crop-box"><div class="crop-handle" id="crop-handle"></div></div></div><div style="margin-top:20px; display:flex; gap:15px"><button class="btn" onclick="closeCrop()">Zrušit</button><button class="btn btn-primary" onclick="confirmCrop()" style="padding:10px 30px">Uložit ořez</button></div><input type="file" id="crop-input" accept="image/*" style="display:none" onchange="loadPhotoToCrop(event)"></div>
 
+<div id="iphone-viewer">
+    <div class="iphone-viewer-close" onclick="document.getElementById('iphone-viewer').style.display='none'">× ZAVŘÍT</div>
+    <div id="iphone-viewer-content" style="width:100%; height:100%; display:flex; align-items:center; justify-content:center;"></div>
+</div>
+
 <script>
 let db = { dogs: [], puppies: [], payments: [], logo: null };
 let _eDog=null, _ePup=null, _ePupDog=null, _ePayPup=null;
 let _tempIcon=null, _tempPhotos=[], _tempDocs=[], _currentType=null, _rawImgObj=null;
 const fmt = n => Number(n||0).toLocaleString('cs-CZ', { minimumFractionDigits: 0 }) + " €";
 
-function openFile(dataUri) { const w = window.open(""); w.document.write(`<html><body style="margin:0; background:#111; display:flex; align-items:center; justify-content:center; height:100vh;"><img src="${dataUri}" style="max-width:90%; max-height:90%; object-fit:contain; box-shadow: 0 10px 50px rgba(0,0,0,0.8);"></body></html>`); }
+// OPRAVENÁ FUNKCE PRO OTEVÍRÁNÍ SOUBORŮ (ZAVÍRATELNÁ NA IPHONU)
+function openFile(dataUri) {
+    const viewer = document.getElementById('iphone-viewer');
+    const content = document.getElementById('iphone-viewer-content');
+    content.innerHTML = '';
+    
+    if (dataUri.startsWith('data:application/pdf')) {
+        content.innerHTML = `<iframe src="${dataUri}" width="100%" height="100%"></iframe>`;
+    } else {
+        content.innerHTML = `<img src="${dataUri}" style="max-width:95%; max-height:90%; object-fit:contain;">`;
+    }
+    viewer.style.display = 'flex';
+}
+
 function getFullAge(birthDate) { if (!birthDate) return ""; const birth = new Date(birthDate), now = new Date(); let years = now.getFullYear() - birth.getFullYear(), months = now.getMonth() - birth.getMonth(), days = now.getDate() - birth.getDate(); if (days < 0) { months--; const lastMonth = new Date(now.getFullYear(), now.getMonth(), 0); days += lastMonth.getDate(); } if (months < 0) { years--; months += 12; } const totalDays = Math.floor((now - birth) / 86400000); if (totalDays < 0) return "Budoucí"; if (totalDays < 14) return totalDays + " dní"; let res = []; if (years > 0) res.push(years + (years === 1 ? " rok" : (years < 5 ? " roky" : " let"))); if (months > 0) res.push(months + (months === 1 ? " měsíc" : (months < 5 ? " měsíce" : " měsíců"))); const weeks = Math.floor(days / 7); if (weeks > 0) res.push(weeks + (weeks === 1 ? " týden" : (weeks < 5 ? " týdny" : " týdnů"))); return res.join(", "); }
 function renderInlineDocs(docs) { if (!docs || docs.length === 0) return ""; return `<div class="inline-docs">` + docs.map(d => `<div class="inline-doc-item" onclick="event.stopPropagation(); openFile('${d.data}')"><svg style="width:12px;height:12px;fill:var(--accent)" viewBox="0 0 24 24"><path d="M14,2H6C4.9,2,4,2.9,4,4v16c0,1.1,0.9,2,2,2h12c1.1,0,2-0.9,2-2V8L14,2z M13,9V3.5L18.5,9H13z"/></svg>${d.name}</div>`).join("") + `</div>`; }
 function renderInlinePhotos(photos) { if (!photos || photos.length === 0) return ""; return `<div class="inline-photos">` + photos.map(p => `<img src="${p}" class="inline-photo-thumb" onclick="event.stopPropagation(); openFile('${p}')">`).join("") + `</div>`; }
