@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Evidence chovu</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #f7f5f0; --surface: #ffffff; --surface2: #f0ede6; --border: #e2ddd4; --border2: #ccc8be;
+  --text: #1a1814; --text2: #6b6760; --text3: #9e9b95; --accent: #3d6b4f; --accent-light: #e8f0eb;
+  --radius: 10px; --radius-lg: 16px; --shadow: 0 1px 3px rgba(0,0,0,0.07);
+  --boy: #eef4fb; --boy-text: #2e5a88; --girl: #fdf2f8; --girl-text: #a64d79; --danger: #c62828;
+  --unpaid: #d00000;
+}
+@media (prefers-color-scheme: dark) {
+  :root { --bg: #16140f; --surface: #1f1d18; --surface2: #2a2820; --border: #353228; --text: #f0ede6; --text2: #a09d96; 
+          --boy: #1a2a3a; --girl: #2d1b24; }
+}
+* { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--text); padding: 0 16px 60px; }
+h1, h2, h3 { font-family: 'DM Serif Display', serif; }
+
+.app { max-width: 860px; margin: 0 auto; }
+.save-controls { display: flex; gap: 10px; padding: 12px; background: #fff8e1; border: 2px solid #ffca28; border-radius: var(--radius); margin: 20px 0; align-items: center; }
+
+header { padding: 20px 0; border-bottom: 1px solid var(--border); margin-bottom: 24px; display: flex; justify-content: space-between; align-items: center; }
+.logo { display: flex; align-items: center; gap: 15px; }
+.logo-icon { width: 55px; height: 55px; background: var(--accent); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 28px; color: white; cursor: pointer; overflow: hidden; border: 2px solid var(--border); flex-shrink: 0; }
+.logo-icon img { width: 100%; height: 100%; object-fit: cover; }
+
+.stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 24px; }
+.stat { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 14px 16px; }
+.stat-val { font-family: 'DM Sans', sans-serif; font-weight: 700; font-size: 1.2em; display: inline-block; margin-right: 5px; }
+.stat-label { font-size: 11px; color: var(--text2); text-transform: uppercase; letter-spacing: 0.5px; }
+
+.tabs { display: flex; gap: 4px; margin-bottom: 20px; background: var(--surface2); border-radius: var(--radius); padding: 4px; border: 1px solid var(--border); }
+.tab { flex: 1; padding: 8px; font-size: 13px; font-weight: 500; border: none; background: none; color: var(--text2); border-radius: 8px; cursor: pointer; }
+.tab.active { background: var(--surface); color: var(--text); box-shadow: var(--shadow); }
+.section { display: none; } .section.active { display: block; }
+
+.dog-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-lg); margin-bottom: 16px; overflow: hidden; }
+.dog-header { display: flex; justify-content: space-between; align-items: center; padding: 16px 20px; border-bottom: 1px solid var(--border); }
+.dog-header.male { background: var(--boy); }
+.dog-header.female { background: var(--girl); }
+
+.pup-row { display: flex; justify-content: space-between; align-items: center; padding: 12px 20px; border-bottom: 1px solid var(--border); }
+.pup-row.male { background: var(--boy); }
+.pup-row.female { background: var(--girl); }
+
+.avatar-wrapper { width: 45px; flex-shrink: 0; margin-right: 12px; display: flex; justify-content: center; }
+.avatar-circle { width: 45px; height: 45px; border-radius: 50%; object-fit: cover; background: var(--accent-light); border: 2px solid var(--surface); display: flex; align-items: center; justify-content: center; font-size: 22px; overflow: hidden; }
+
+.sex-badge { display: inline-flex; align-items: center; justify-content: center; width: 18px; height: 18px; border-radius: 50%; font-size: 11px; font-weight: bold; color: white; margin-left: 5px; vertical-align: middle; }
+.sex-badge.m { background: #2196F3; }
+.sex-badge.f { background: #E91E63; }
+
+.price-container { text-align: right; min-width: 125px; }
+.price-ratio { font-size: 12px; font-weight: 700; color: var(--text); }
+.price-remaining { font-size: 11px; font-weight: 800; color: var(--unpaid); margin-top: 2px; letter-spacing: -0.2px; }
+.price-paid-full { font-size: 11px; font-weight: 700; color: var(--accent); margin-top: 2px; }
+.progress-bar-bg { width: 100%; height: 5px; background: var(--border2); border-radius: 3px; margin: 5px 0; overflow: hidden; }
+.progress-bar-fill { height: 100%; background: var(--accent); border-radius: 3px; transition: width 0.3s; }
+
+.inline-docs { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 5px; }
+.inline-doc-item { display: flex; align-items: center; gap: 4px; font-size: 10px; color: var(--accent); background: rgba(61,107,79,0.1); padding: 2px 6px; border-radius: 4px; cursor: pointer; border: 1px solid rgba(61,107,79,0.2); }
+.inline-photos { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 6px; }
+.inline-photo-thumb { width: 32px; height: 32px; border-radius: 4px; object-fit: cover; border: 1px solid var(--border); cursor: pointer; }
+
+.btn { padding: 6px 12px; font-size: 13px; font-weight: 500; border: 1px solid var(--border2); border-radius: 8px; cursor: pointer; background: var(--surface); }
+.btn-primary { background: var(--accent); color: #fff; border-color: var(--accent); }
+.btn-del-small { color: var(--danger); border: none; background: none; font-weight: bold; cursor: pointer; font-size: 16px; }
+
+.overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 200; backdrop-filter: blur(2px); align-items: center; justify-content: center; padding: 10px; }
+.overlay.open { display: flex; }
+.modal { background: var(--surface); padding: 24px; border-radius: var(--radius-lg); width: 100%; max-width: 550px; max-height: 95vh; overflow-y: auto; position: relative; }
+.modal-close { position: absolute; top: 15px; right: 15px; font-size: 28px; cursor: pointer; color: var(--text2); line-height: 1; font-weight: bold; padding: 5px; }
+.field { margin-bottom: 12px; }
+.field label { display: block; font-size: 11px; font-weight: 600; color: var(--text2); margin-bottom: 4px; text-transform: uppercase; }
+.field input, .field select, .field textarea { width: 100%; padding: 10px; border-radius: 8px; border: 1px solid var(--border2); font-size: 16px; background: var(--bg); color: var(--text); -webkit-appearance: none; }
+
+.gallery-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin-top: 10px; }
+.gallery-item { aspect-ratio: 1; border-radius: 8px; overflow: hidden; position: relative; border: 1px solid var(--border); }
+.gallery-item img { width: 100%; height: 100%; object-fit: cover; }
+
+/* OŘEZ */
+.crop-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.9); z-index: 500; flex-direction: column; align-items: center; justify-content: center; }
+.crop-container { position: relative; max-width: 90%; max-height: 70vh; }
+#crop-canvas { max-width: 100%; max-height: 70vh; display: block; }
+.crop-box { position: absolute; border: 2px solid #fff; border-radius: 50%; box-shadow: 0 0 0 9999px rgba(0,0,0,0.6); cursor: move; }
+.crop-handle { position: absolute; width: 30px; height: 30px; background: #fff; border-radius: 50%; right: -15px; bottom: -15px; cursor: nwse-resize; border: 2px solid var(--accent); }
+</style>
+</head>
+<body>
+<div class="app">
+  <div class="save-controls">
+    <button class="btn btn-primary" onclick="exportData()">💾 Uložit data</button>
+    <button class="btn" onclick="document.getElementById('importFile').click()">📂 Načíst data</button>
+    <input type="file" id="importFile" style="display:none" onchange="importData(event)">
+  </div>
+
+  <header>
+    <div class="logo">
+        <div class="logo-icon" id="main-logo" onclick="triggerCrop('l')">🐕</div>
+        <h1>Evidence chovu</h1>
+    </div>
+    <button class="btn btn-primary" onclick="openDogModal()">+ Přidat dospělého</button>
+  </header>
+
+  <div class="stats" id="stats"></div>
+
+  <div class="tabs">
+    <button class="tab active" onclick="switchTab('fenky', this)">Psi a štěňata</button>
+    <button class="tab" onclick="switchTab('platby', this)">Finance</button>
+  </div>
+
+  <div id="tab-fenky" class="section active"></div>
+  <div id="tab-platby" class="section"></div>
+</div>
+
+<div class="overlay" id="dog-overlay">
+    <div class="modal">
+        <div class="modal-close" onclick="closeOverlay('dog-overlay')">×</div>
+        <h2>Dospělý</h2>
+        <div style="display:flex; gap:15px; align-items:center; margin-bottom:15px;">
+            <div id="d-img-preview" class="avatar-circle" style="width:70px;height:70px;cursor:pointer;border:2px dashed var(--accent)" onclick="triggerCrop('d')">🐶</div>
+            <div style="flex:1">
+                <div class="field"><label>Jméno</label><input id="d-name"></div>
+                <div class="field"><label>Pohlaví</label><select id="d-sex"><option value="pes">Pes ♂</option><option value="fenka">Fenka ♀</option></select></div>
+            </div>
+        </div>
+        <div class="field"><label>Narození</label><input id="d-birth" type="date"></div>
+        <div class="field"><label>Poznámka</label><textarea id="d-note"></textarea></div>
+        <hr><h3 style="margin-top:15px">Média</h3>
+        <label style="font-size:11px; font-weight:bold; display:block; margin:10px 0 5px">FOTKY:</label>
+        <input type="file" multiple accept="image/*" onchange="addPhotos(this)">
+        <div id="d-gallery" class="gallery-grid"></div>
+        <label style="font-size:11px; font-weight:bold; display:block; margin:15px 0 5px">DOKUMENTY:</label>
+        <input type="file" accept=".pdf,image/*" onchange="addDoc(this)">
+        <div id="d-docs"></div>
+        <div style="display:flex; justify-content:space-between; margin-top:20px">
+            <button class="btn" style="color:var(--danger)" onclick="deleteDog()">Smazat</button>
+            <button class="btn btn-primary" onclick="saveDog()">Uložit</button>
+        </div>
+    </div>
+</div>
+
+<div class="overlay" id="pup-overlay">
+    <div class="modal">
+        <div class="modal-close" onclick="closeOverlay('pup-overlay')">×</div>
+        <h2>Štěně</h2>
+        <div style="display:flex; gap:15px; align-items:center; margin-bottom:15px;">
+            <div id="p-img-preview" class="avatar-circle" style="width:70px;height:70px;cursor:pointer;border:2px dashed var(--accent)" onclick="triggerCrop('p')">🐾</div>
+            <div style="flex:1">
+                <div class="field"><label>Jméno / Barva</label><input id="p-name"></div>
+                <div class="field"><label>Pohlaví</label><select id="p-sex"><option value="pes">Pes ♂</option><option value="fenka">Fenka ♀</option></select></div>
+            </div>
+        </div>
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px">
+            <div class="field"><label>Narození</label><input id="p-birth" type="date"></div>
+            <div class="field"><label>Cena (€)</label><input id="p-price" type="number"></div>
+        </div>
+        <div class="field"><label>Stav</label><select id="p-status"><option value="volné">Volné</option><option value="rezervace">Rezervace</option><option value="prodáno">Prodáno</option></select></div>
+        <div class="field"><label>Poznámka</label><textarea id="p-note"></textarea></div>
+        <hr><h3 style="margin-top:15px">Média</h3>
+        <label style="font-size:11px; font-weight:bold; display:block; margin:10px 0 5px">FOTKY:</label>
+        <input type="file" multiple accept="image/*" onchange="addPhotos(this)">
+        <div id="p-gallery" class="gallery-grid"></div>
+        <label style="font-size:11px; font-weight:bold; display:block; margin:15px 0 5px">DOKUMENTY:</label>
+        <input type="file" accept=".pdf,image/*" onchange="addDoc(this)">
+        <div id="p-docs"></div>
+        <div style="display:flex; justify-content:space-between; margin-top:20px">
+            <button class="btn" style="color:var(--danger)" onclick="deletePup()">Smazat</button>
+            <button class="btn btn-primary" onclick="savePup()">Uložit</button>
+        </div>
+    </div>
+</div>
+
+<div class="overlay" id="pay-overlay"><div class="modal"><div class="modal-close" onclick="closeOverlay('pay-overlay')">×</div><h2>Platba</h2><div class="field"><label>Částka (€)</label><input id="pay-amount" type="number" step="0.01"></div><div class="field"><label>Typ</label><select id="pay-type"><option value="záloha">Záloha</option><option value="doplatek">Doplatek</option></select></div><div class="field"><label>Datum</label><input id="pay-date" type="date"></div><div style="display:flex; justify-content:flex-end; gap:10px"><button class="btn" onclick="closeOverlay('pay-overlay')">Zrušit</button><button class="btn btn-primary" onclick="savePayment()">Uložit</button></div></div></div>
+
+<div class="crop-overlay" id="crop-overlay"><div class="crop-container"><canvas id="crop-canvas"></canvas><div class="crop-box" id="crop-box"><div class="crop-handle" id="crop-handle"></div></div></div><div style="margin-top:20px; display:flex; gap:15px"><button class="btn" onclick="closeCrop()">Zrušit</button><button class="btn btn-primary" onclick="confirmCrop()" style="padding:10px 30px">Uložit ořez</button></div><input type="file" id="crop-input" accept="image/*" style="display:none" onchange="loadPhotoToCrop(event)"></div>
+
+<script>
+let db = { dogs: [], puppies: [], payments: [], logo: null };
+let _eDog=null, _ePup=null, _ePupDog=null, _ePayPup=null;
+let _tempIcon=null, _tempPhotos=[], _tempDocs=[], _currentType=null, _rawImgObj=null;
+const fmt = n => Number(n||0).toLocaleString('cs-CZ', { minimumFractionDigits: 0 }) + " €";
+
+function openFile(dataUri) { const w = window.open(""); w.document.write(`<html><body style="margin:0; background:#111; display:flex; align-items:center; justify-content:center; height:100vh;"><img src="${dataUri}" style="max-width:90%; max-height:90%; object-fit:contain; box-shadow: 0 10px 50px rgba(0,0,0,0.8);"></body></html>`); }
+function getFullAge(birthDate) { if (!birthDate) return ""; const birth = new Date(birthDate), now = new Date(); let years = now.getFullYear() - birth.getFullYear(), months = now.getMonth() - birth.getMonth(), days = now.getDate() - birth.getDate(); if (days < 0) { months--; const lastMonth = new Date(now.getFullYear(), now.getMonth(), 0); days += lastMonth.getDate(); } if (months < 0) { years--; months += 12; } const totalDays = Math.floor((now - birth) / 86400000); if (totalDays < 0) return "Budoucí"; if (totalDays < 14) return totalDays + " dní"; let res = []; if (years > 0) res.push(years + (years === 1 ? " rok" : (years < 5 ? " roky" : " let"))); if (months > 0) res.push(months + (months === 1 ? " měsíc" : (months < 5 ? " měsíce" : " měsíců"))); const weeks = Math.floor(days / 7); if (weeks > 0) res.push(weeks + (weeks === 1 ? " týden" : (weeks < 5 ? " týdny" : " týdnů"))); return res.join(", "); }
+function renderInlineDocs(docs) { if (!docs || docs.length === 0) return ""; return `<div class="inline-docs">` + docs.map(d => `<div class="inline-doc-item" onclick="event.stopPropagation(); openFile('${d.data}')"><svg style="width:12px;height:12px;fill:var(--accent)" viewBox="0 0 24 24"><path d="M14,2H6C4.9,2,4,2.9,4,4v16c0,1.1,0.9,2,2,2h12c1.1,0,2-0.9,2-2V8L14,2z M13,9V3.5L18.5,9H13z"/></svg>${d.name}</div>`).join("") + `</div>`; }
+function renderInlinePhotos(photos) { if (!photos || photos.length === 0) return ""; return `<div class="inline-photos">` + photos.map(p => `<img src="${p}" class="inline-photo-thumb" onclick="event.stopPropagation(); openFile('${p}')">`).join("") + `</div>`; }
+function addPhotos(input) { Array.from(input.files).forEach(file => { const r = new FileReader(); r.onload = (e) => { _tempPhotos.push(e.target.result); renderTempMedia(); }; r.readAsDataURL(file); }); input.value=''; }
+function addDoc(input) { const file = input.files[0]; if(!file) return; const r = new FileReader(); r.onload = (e) => { const name = prompt("Název dokumentu:", file.name); _tempDocs.push({ name: name || file.name, data: e.target.result }); renderTempMedia(); }; r.readAsDataURL(file); input.value=''; }
+function renderTempMedia() { const prefix = (_currentType === 'dog') ? 'd' : 'p'; const targetG = document.getElementById(prefix + '-gallery'), targetD = document.getElementById(prefix + '-docs'); if(targetG) targetG.innerHTML = _tempPhotos.map((p, i) => `<div class="gallery-item"><img src="${p}"><button onclick="_tempPhotos.splice(${i},1);renderTempMedia()" style="position:absolute;top:0;right:0;background:red;color:white;border:none;padding:2px 5px;cursor:pointer;font-size:10px">X</button></div>`).join(''); if(targetD) targetD.innerHTML = _tempDocs.map((d, i) => `<div style="font-size:12px; margin:4px 0">📄 ${d.name} <button class="btn-del-small" onclick="_tempDocs.splice(${i},1);renderTempMedia()">×</button></div>`).join(''); }
+
+const canvas = document.getElementById('crop-canvas'), ctx = canvas.getContext('2d'), cropBox = document.getElementById('crop-box'), handle = document.getElementById('crop-handle');
+let _cropData = { x:0, y:0, size:150 };
+function triggerCrop(type) { _currentType = (type === 'd' ? 'dog' : (type === 'p' ? 'pup' : 'logo')); document.getElementById('crop-input').click(); }
+function loadPhotoToCrop(e) { const f = e.target.files[0]; if(!f) return; const r = new FileReader(); r.onload = (ev) => { _rawImgObj = new Image(); _rawImgObj.onload = () => { document.getElementById('crop-overlay').style.display='flex'; const scale = Math.min((window.innerWidth*0.9)/_rawImgObj.width, (window.innerHeight*0.7)/_rawImgObj.height, 1); canvas.width = _rawImgObj.width * scale; canvas.height = _rawImgObj.height * scale; ctx.drawImage(_rawImgObj, 0, 0, canvas.width, canvas.height); _cropData.size = Math.min(canvas.width, canvas.height) * 0.6; _cropData.x = (canvas.width-_cropData.size)/2; _cropData.y = (canvas.height-_cropData.size)/2; updateCropUI(); }; _rawImgObj.src = ev.target.result; }; r.readAsDataURL(f); }
+function updateCropUI() { cropBox.style.width = _cropData.size + 'px'; cropBox.style.height = _cropData.size + 'px'; cropBox.style.left = (canvas.offsetLeft + _cropData.x) + 'px'; cropBox.style.top = (canvas.offsetTop + _cropData.y) + 'px'; }
+let _isMoving = false, _isResizing = false, _startX, _startY, _startSize;
+cropBox.onmousedown = (e) => { if(e.target === handle) return; _isMoving = true; _startX = e.clientX - _cropData.x; _startY = e.clientY - _cropData.y; };
+handle.onmousedown = (e) => { e.stopPropagation(); _isResizing = true; _startX = e.clientX; _startSize = _cropData.size; };
+window.onmousemove = (e) => { if(_isMoving) { _cropData.x = Math.max(0, Math.min(canvas.width-_cropData.size, e.clientX-_startX)); _cropData.y = Math.max(0, Math.min(canvas.height-_cropData.size, e.clientY-_startY)); } else if(_isResizing) { let diff = e.clientX - _startX; let newSize = Math.max(50, Math.min(canvas.width-_cropData.x, canvas.height-_cropData.y, _startSize + diff)); _cropData.size = newSize; } updateCropUI(); };
+window.onmouseup = () => { _isMoving = false; _isResizing = false; };
+function confirmCrop() { const out = document.createElement('canvas'); out.width=out.height=200; const octx = out.getContext('2d'); octx.beginPath(); octx.arc(100,100,100,0,Math.PI*2); octx.clip(); const r = _rawImgObj.width / canvas.width; octx.drawImage(_rawImgObj, _cropData.x*r, _cropData.y*r, _cropData.size*r, _cropData.size*r, 0, 0, 200, 200); _tempIcon = out.toDataURL('image/jpeg', 0.8); if(_currentType === 'logo') { db.logo = _tempIcon; render(); } else { document.getElementById((_currentType==='dog'?'d':'p')+'-img-preview').innerHTML = `<img src="${_tempIcon}" style="width:100%;height:100%;object-fit:cover;border-radius:50%">`; } closeCrop(); }
+function closeCrop() { document.getElementById('crop-overlay').style.display='none'; }
+
+function openDogModal(id=null) { _eDog=id; _currentType='dog'; const d=db.dogs.find(x=>x.id===id); _tempIcon = d?.img||null; _tempPhotos=[...(d?.photos||[])]; _tempDocs=[...(d?.docs||[])]; document.getElementById('d-name').value=d?.name||''; document.getElementById('d-sex').value=d?.sex||'fenka'; document.getElementById('d-birth').value=d?.birth||''; document.getElementById('d-note').value=d?.note||''; document.getElementById('d-img-preview').innerHTML = _tempIcon?`<img src="${_tempIcon}" style="width:100%;height:100%;object-fit:cover;border-radius:50%">`:'🐶'; renderTempMedia(); document.getElementById('dog-overlay').classList.add('open'); }
+function saveDog() { const data = { id:_eDog||Date.now().toString(), name:document.getElementById('d-name').value, sex:document.getElementById('d-sex').value, birth:document.getElementById('d-birth').value, note:document.getElementById('d-note').value, img:_tempIcon, photos:_tempPhotos, docs:_tempDocs }; if(_eDog) db.dogs = db.dogs.map(x=>x.id===_eDog?data:x); else db.dogs.push(data); closeOverlay('dog-overlay'); render(); }
+function openPupModal(dogId, pupId=null) { _ePupDog=dogId; _ePup=pupId; _currentType='pup'; const p=db.puppies.find(x=>x.id===pupId); _tempIcon = p?.img||null; _tempPhotos=[...(p?.photos||[])]; _tempDocs=[...(p?.docs||[])]; document.getElementById('p-name').value=p?.name||''; document.getElementById('p-sex').value=p?.sex||'pes'; document.getElementById('p-birth').value=p?.birth||''; document.getElementById('p-price').value=p?.price||''; document.getElementById('p-status').value=p?.status||'volné'; document.getElementById('p-note').value=p?.note||''; document.getElementById('p-img-preview').innerHTML = _tempIcon?`<img src="${_tempIcon}" style="width:100%;height:100%;object-fit:cover;border-radius:50%">`:'🐾'; renderTempMedia(); document.getElementById('pup-overlay').classList.add('open'); }
+function savePup() { const data = { id:_ePup||Date.now().toString(), dogId:_ePupDog, name:document.getElementById('p-name').value, sex:document.getElementById('p-sex').value, birth:document.getElementById('p-birth').value, price:parseFloat(document.getElementById('p-price').value)||0, status:document.getElementById('p-status').value, note:document.getElementById('p-note').value, img:_tempIcon, photos:_tempPhotos, docs:_tempDocs }; if(_ePup) db.puppies = db.puppies.map(x=>x.id===_ePup?data:x); else db.puppies.push(data); closeOverlay('pup-overlay'); render(); }
+function openPayModal(pId) { _ePayPup=pId; document.getElementById('pay-date').value=new Date().toISOString().split('T')[0]; document.getElementById('pay-overlay').classList.add('open'); }
+function savePayment() { const a=parseFloat(document.getElementById('pay-amount').value); if(a) db.payments.push({id:Date.now().toString(), pupId:_ePayPup, amount:a, type:document.getElementById('pay-type').value, date:document.getElementById('pay-date').value}); closeOverlay('pay-overlay'); render(); }
+function closeOverlay(id) { document.getElementById(id).classList.remove('open'); }
+function switchTab(t, b) { document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active')); b.classList.add('active'); document.querySelectorAll('.section').forEach(s=>s.classList.remove('active')); document.getElementById('tab-'+t).classList.add('active'); }
+function deleteDog() { if(confirm('Smazat?')) { db.dogs=db.dogs.filter(x=>x.id!==_eDog); db.puppies=db.puppies.filter(p=>p.dogId!==_eDog); closeOverlay('dog-overlay'); render(); } }
+function deletePup() { if(confirm('Smazat?')) { db.puppies=db.puppies.filter(x=>x.id!==_ePup); closeOverlay('pup-overlay'); render(); } }
+
+function render() {
+    const logoEl = document.getElementById('main-logo'); logoEl.innerHTML = db.logo ? `<img src="${db.logo}">` : '🐕';
+    const total = db.payments.reduce((s,p)=>s+p.amount,0);
+    document.getElementById('stats').innerHTML = `<div class="stat"><span class="stat-val">${db.dogs.length}</span><span class="stat-label">Dospělí</span></div><div class="stat"><span class="stat-val">${db.puppies.length}</span><span class="stat-label">Štěňata</span></div><div class="stat"><span class="stat-val" style="color:var(--accent)">${fmt(total)}</span><span class="stat-label">Příjmy</span></div>`;
+    document.getElementById('tab-fenky').innerHTML = db.dogs.map(dog => {
+        const pups = db.puppies.filter(p=>p.dogId===dog.id);
+        return `<div class="dog-card"><div class="dog-header ${dog.sex==='pes'?'male':'female'}"><div style="display:flex;align-items:center;cursor:pointer" onclick="openDogModal('${dog.id}')"><div class="avatar-wrapper">${dog.img ? `<img src="${dog.img}" class="avatar-circle">` : `<div class="avatar-circle">🐶</div>`}</div><div><strong>${dog.name}</strong> <span class="sex-badge ${dog.sex==='pes'?'m':'f'}">${dog.sex==='pes'?'♂':'♀'}</span><div style="font-size:11px;color:var(--text2)">${getFullAge(dog.birth)}</div>${renderInlineDocs(dog.docs)}${renderInlinePhotos(dog.photos)}</div></div><button class="btn btn-primary" onclick="openPupModal('${dog.id}')">+ Štěně</button></div><div>${pups.map(p => { const paid = db.payments.filter(x=>x.pupId===p.id).reduce((s,x)=>s+x.amount,0); const remaining = Math.max(0, p.price - paid); const percent = p.price > 0 ? Math.min(100, (paid / p.price) * 100) : 0; return `<div class="pup-row ${p.sex==='pes'?'male':'female'}"><div style="display:flex;align-items:center;cursor:pointer;flex:1" onclick="openPupModal('${dog.id}','${p.id}')"><div class="avatar-wrapper">${p.img ? `<img src="${p.img}" class="avatar-circle">` : `<div class="avatar-circle" style="font-size:16px">🐾</div>`}</div><div><span style="font-weight:600;font-size:13px">${p.name||'Štěně'}</span> <span class="sex-badge ${p.sex==='pes'?'m':'f'}" style="width:15px; height:15px; font-size:9px">${p.sex==='pes'?'♂':'♀'}</span><div style="font-size:10px;color:var(--text2)">${getFullAge(p.birth)} • ${p.status}</div>${renderInlineDocs(p.docs)}${renderInlinePhotos(p.photos)}</div></div><div class="price-container"><div class="price-ratio">${fmt(paid)} / ${fmt(p.price)}</div><div class="progress-bar-bg"><div class="progress-bar-fill" style="width:${percent}%"></div></div>${remaining > 0 ? `<div class="price-remaining" onclick="openPayModal('${p.id}')" style="cursor:pointer">Zbývá: ${fmt(remaining)}</div>` : `<div class="price-paid-full">✓ Zaplaceno</div>`}<button class="btn" style="padding:2px 6px;font-size:9px;margin-top:4px" onclick="openPayModal('${p.id}')">+ Platba</button></div></div>`}).join('')}</div></div>`}).join('');
+    document.getElementById('tab-platby').innerHTML = db.payments.slice().sort((a,b)=>b.date.localeCompare(a.date)).map(p => { const pup = db.puppies.find(x=>x.id===p.pupId); return `<div style="background:#fff;padding:10px;margin-bottom:5px;border-radius:8px;border:1px solid var(--border);display:flex;justify-content:space-between"><div><strong>${fmt(p.amount)}</strong><div style="font-size:11px">${p.type} - ${pup?.name||'Štěně'}</div></div><div><button class="btn-del-small" onclick="db.payments=db.payments.filter(x=>x.id!=='${p.id}');render()">×</button></div></div>` }).join('');
+}
+
+function exportData() { const h = document.documentElement.outerHTML.replace(/let db = \{.*?\};/, `let db = ${JSON.stringify(db)};`); const a = document.createElement("a"); a.href = URL.createObjectURL(new Blob([h],{type:"text/html"})); a.download="evidence.html"; a.click(); }
+function importData(e) { const r=new FileReader(); r.onload=(ev)=>{ const m=ev.target.result.match(/let db = (\{.*?\});/); if(m){db=JSON.parse(m[1]);render();} }; r.readAsText(e.target.files[0]); }
+render();
+</script>
+</body>
+</html>
