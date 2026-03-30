@@ -2,7 +2,7 @@
 <html lang="cs">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 <title>Evidence chovu</title>
 <link rel="apple-touch-icon" href="https://rocles-cz.github.io/chov/favicon.png">
 <link rel="icon" type="image/png" href="https://rocles-cz.github.io/chov/favicon.png">
@@ -86,17 +86,17 @@ header { padding: 20px 0; border-bottom: 1px solid var(--border); margin-bottom:
 .gallery-item { aspect-ratio: 1; border-radius: 8px; overflow: hidden; position: relative; border: 1px solid var(--border); }
 .gallery-item img { width: 100%; height: 100%; object-fit: cover; }
 
-/* OŘEZ */
 .crop-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.9); z-index: 500; flex-direction: column; align-items: center; justify-content: center; }
 .crop-container { position: relative; max-width: 90%; max-height: 70vh; }
 #crop-canvas { max-width: 100%; max-height: 70vh; display: block; }
 .crop-box { position: absolute; border: 2px solid #fff; border-radius: 50%; box-shadow: 0 0 0 9999px rgba(0,0,0,0.6); cursor: move; }
 .crop-handle { position: absolute; width: 30px; height: 30px; background: #fff; border-radius: 50%; right: -15px; bottom: -15px; cursor: nwse-resize; border: 2px solid var(--accent); }
 
-/* FIX: PROHLÍŽEČ PRO IPHONE */
+/* VYLEPŠENÝ PROHLÍŽEČ S PODPOROU ZOOMU */
 #iphone-viewer { display: none; position: fixed; inset: 0; background: black; z-index: 9999; flex-direction: column; align-items: center; justify-content: center; }
-#iphone-viewer img, #iphone-viewer iframe { max-width: 100%; max-height: 85%; border: none; }
-.iphone-viewer-close { position: absolute; top: 40px; right: 20px; color: white; background: rgba(255,255,255,0.2); padding: 10px 20px; border-radius: 8px; font-weight: bold; cursor: pointer; font-family: sans-serif; }
+#iphone-viewer-content { width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; overflow: auto; -webkit-overflow-scrolling: touch; }
+#iphone-viewer-content img { max-width: 100%; transition: transform 0.2s; }
+.iphone-viewer-close { position: absolute; top: 40px; right: 20px; color: white; background: rgba(0,0,0,0.6); border: 2px solid white; padding: 12px 24px; border-radius: 8px; font-weight: bold; cursor: pointer; z-index: 10000; font-family: sans-serif; font-size: 16px; }
 </style>
 </head>
 <body>
@@ -190,7 +190,7 @@ header { padding: 20px 0; border-bottom: 1px solid var(--border); margin-bottom:
 
 <div id="iphone-viewer">
     <div class="iphone-viewer-close" onclick="document.getElementById('iphone-viewer').style.display='none'">× ZAVŘÍT</div>
-    <div id="iphone-viewer-content" style="width:100%; height:100%; display:flex; align-items:center; justify-content:center;"></div>
+    <div id="iphone-viewer-content"></div>
 </div>
 
 <script>
@@ -199,16 +199,17 @@ let _eDog=null, _ePup=null, _ePupDog=null, _ePayPup=null;
 let _tempIcon=null, _tempPhotos=[], _tempDocs=[], _currentType=null, _rawImgObj=null;
 const fmt = n => Number(n||0).toLocaleString('cs-CZ', { minimumFractionDigits: 0 }) + " €";
 
-// OPRAVENÁ FUNKCE PRO OTEVÍRÁNÍ SOUBORŮ (ZAVÍRATELNÁ NA IPHONU)
+// FUNKCE PRO OTEVÍRÁNÍ SOUBORŮ (ZAVÍRATELNÁ NA IPHONU + ZOOM)
 function openFile(dataUri) {
     const viewer = document.getElementById('iphone-viewer');
     const content = document.getElementById('iphone-viewer-content');
     content.innerHTML = '';
     
     if (dataUri.startsWith('data:application/pdf')) {
-        content.innerHTML = `<iframe src="${dataUri}" width="100%" height="100%"></iframe>`;
+        content.innerHTML = `<iframe src="${dataUri}" width="100%" height="100%" style="border:none;"></iframe>`;
     } else {
-        content.innerHTML = `<img src="${dataUri}" style="max-width:95%; max-height:90%; object-fit:contain;">`;
+        // Obrázek vložíme tak, aby se na něm dalo zoomovat nativně prohlížečem
+        content.innerHTML = `<img src="${dataUri}" style="max-width:100%; display:block; margin:auto;">`;
     }
     viewer.style.display = 'flex';
 }
