@@ -27,7 +27,7 @@ h1, h2, h3 { font-family: 'DM Serif Display', serif; }
 .save-controls { display: flex; gap: 10px; padding: 12px; background: #fff8e1; border: 2px solid #ffca28; border-radius: var(--radius); margin: 20px 0; align-items: center; }
 header { padding: 20px 0; border-bottom: 1px solid var(--border); margin-bottom: 24px; display: flex; justify-content: space-between; align-items: center; gap: 10px; }
 .logo { display: flex; align-items: center; gap: 15px; min-width: 150px; }
-.logo-icon { width: 55px; height: 55px; background: var(--accent); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 28px; color: white; cursor: pointer; overflow: hidden; border: 2px solid var(--border); flex-shrink: 0; }
+.logo-icon { width: 55px; height: 55px; background: var(--accent); border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 28px; color: white; cursor: pointer; overflow: hidden; border: 2px solid var(--border); flex-shrink: 0; }
 .logo-icon img { width: 100%; height: 100%; object-fit: cover; }
 .stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 24px; }
 .stat { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 14px 16px; }
@@ -37,17 +37,18 @@ header { padding: 20px 0; border-bottom: 1px solid var(--border); margin-bottom:
 .tab { flex: 1; padding: 8px; font-size: 13px; font-weight: 500; border: none; background: none; color: var(--text2); border-radius: 8px; cursor: pointer; }
 .tab.active { background: var(--surface); color: var(--text); box-shadow: var(--shadow); }
 .section { display: none; } .section.active { display: block; }
-
 .dog-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-lg); margin-bottom: 16px; overflow: hidden; position: relative; }
 .dog-header { display: flex; justify-content: space-between; align-items: center; padding: 16px 20px; border-bottom: 1px solid var(--border); }
 .dog-header.male { background: var(--boy); }
 .dog-header.female { background: var(--girl); }
 .repro-info { background: #fff9c4; padding: 8px 20px; font-size: 12px; border-bottom: 1px solid var(--border); color: #5d4037; font-weight: 600; }
+.avatar-col { width: 50px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-right: 12px; }
+.sq-avatar { width: 45px; height: 45px; border-radius: 12px; background: var(--surface2); border: 1.5px solid var(--border2); display: flex; align-items: center; justify-content: center; font-size: 22px; overflow: hidden; box-shadow: 0 2px 4px rgba(0,0,0,0.05); }
+.sq-avatar img { width: 100%; height: 100%; object-fit: cover; }
 .pup-row { display: flex; justify-content: space-between; align-items: center; padding: 12px 20px; border-bottom: 1px solid var(--border); background: var(--surface); }
 .pup-row.male { background: var(--boy); }
 .pup-row.female { background: var(--girl); }
-.avatar-circle { width: 45px; height: 45px; aspect-ratio: 1/1; border-radius: 50%; background: var(--accent-light); border: 2px solid var(--surface); display: flex; align-items: center; justify-content: center; font-size: 22px; overflow: hidden; flex-shrink: 0; }
-.avatar-circle img { width: 100%; height: 100%; object-fit: cover; }
+.drag-handle-col { width: 24px; color: var(--text3); cursor: grab; flex-shrink: 0; }
 .sex-badge { display: inline-flex; align-items: center; justify-content: center; width: 18px; height: 18px; border-radius: 50%; font-size: 11px; font-weight: bold; color: white; margin-left: 5px; vertical-align: middle; }
 .sex-badge.m { background: #2196F3; }
 .sex-badge.f { background: #E91E63; }
@@ -57,14 +58,12 @@ header { padding: 20px 0; border-bottom: 1px solid var(--border); margin-bottom:
 .price-paid-full { font-size: 11px; font-weight: 700; color: var(--accent); margin-top: 2px; }
 .progress-bar-bg { width: 100%; height: 5px; background: var(--border2); border-radius: 3px; margin: 5px 0; overflow: hidden; }
 .progress-bar-fill { height: 100%; background: var(--accent); border-radius: 3px; transition: width 0.3s; }
-
 .quick-attachments { display: flex; flex-direction: row; flex-wrap: wrap; gap: 12px; margin-top: 10px; align-items: flex-start; }
 .att-group { display: flex; flex-direction: column; align-items: center; gap: 4px; text-align: center; width: 60px; }
 .att-name { font-size: 9px; color: var(--text2); font-weight: 600; width: 100%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; line-height: 1; }
 .mini-photo-link { display: block; width: 38px; height: 38px; border-radius: 6px; border: 2px solid #fff; box-shadow: 0 0 0 1px var(--border); overflow: hidden; cursor: pointer; transition: 0.2s; }
 .mini-photo-link img { width: 100%; height: 100%; object-fit: cover; }
 .mini-doc-link { display: flex; align-items: center; justify-content: center; width: 38px; height: 38px; background: #fdfdfd; border-radius: 6px; border: 1px solid var(--border2); font-size: 18px; cursor: pointer; box-shadow: 0 0 0 1px var(--border); }
-
 .btn { padding: 6px 12px; font-size: 13px; font-weight: 500; border: 1px solid var(--border2); border-radius: 8px; cursor: pointer; background: var(--surface); }
 .btn-primary { background: var(--accent); color: #fff; border-color: var(--accent); }
 .lang-switcher { display: flex; border: 1px solid var(--border2); border-radius: 8px; overflow: hidden; }
@@ -80,16 +79,12 @@ header { padding: 20px 0; border-bottom: 1px solid var(--border); margin-bottom:
 .attach-box { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin: 15px 0; }
 .attachments-list { border: 1px solid var(--border); border-radius: 8px; background: var(--bg); margin-top: 10px; }
 .attachment-item { display: flex; align-items: center; justify-content: space-between; padding: 8px; border-bottom: 1px solid var(--border); }
-
-/* Viewer Styles */
 #viewer-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.9); z-index: 5000; backdrop-filter: blur(8px); align-items: center; justify-content: center; flex-direction: column; }
 #viewer-overlay.open { display: flex; }
 #viewer-content { position: relative; max-width: 80%; max-height: 80%; display: flex; align-items: center; justify-content: center; }
 #viewer-content img { max-width: 100%; max-height: 80vh; border-radius: 8px; box-shadow: 0 0 30px rgba(0,0,0,0.5); border: 2px solid #fff; }
 #viewer-content iframe { width: 80vw; height: 80vh; border: none; background: white; border-radius: 8px; }
 .viewer-close-btn { position: absolute; top: -50px; right: 0; background: var(--danger); color: white; border: none; padding: 10px 20px; border-radius: 8px; cursor: pointer; font-weight: bold; font-family: 'DM Sans', sans-serif; z-index: 5001; box-shadow: 0 4px 10px rgba(0,0,0,0.3); }
-
-/* Export / Print Preview Styles */
 #export-preview { line-height: 1.5; color: #000; background: #fff; padding: 40px; border: 1px solid #ddd; }
 .preview-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid var(--accent); padding-bottom: 15px; margin-bottom: 20px; }
 .preview-section { margin-bottom: 20px; border-bottom: 1px solid #eee; padding-bottom: 10px; }
@@ -100,11 +95,9 @@ header { padding: 20px 0; border-bottom: 1px solid var(--border); margin-bottom:
     #export-preview { position: fixed; left: 0; top: 0; width: 100%; border: none; padding: 0; }
     .no-print { display: none !important; }
 }
-
-/* Cropper */
 #crop-overlay { z-index: 3000; background: rgba(0,0,0,0.9); }
 .crop-box { background: var(--surface); padding: 20px; border-radius: 20px; width: 320px; text-align: center; }
-.crop-canvas-wrap { position: relative; width: 280px; height: 280px; margin: 10px auto; background: #000; border-radius: 50%; overflow: hidden; cursor: move; touch-action: none; border: 2px solid var(--accent); }
+.crop-canvas-wrap { position: relative; width: 280px; height: 280px; margin: 10px auto; background: #000; border-radius: 12px; overflow: hidden; cursor: move; touch-action: none; border: 2px solid var(--accent); }
 #crop-canvas { position: absolute; top: 0; left: 0; }
 </style>
 </head>
@@ -168,7 +161,7 @@ header { padding: 20px 0; border-bottom: 1px solid var(--border); margin-bottom:
         <div class="modal-close" onclick="closeOverlay('dog-overlay')">×</div>
         <h2 data-lang="modal_dog_title">Dospělý jedinec</h2>
         <div style="display:flex; gap:15px; align-items:center; margin-bottom:15px;">
-            <div id="d-img-preview" class="avatar-circle" style="width:70px;height:70px;cursor:pointer;border:2px dashed var(--accent)" onclick="triggerUpload('d')">🐶</div>
+            <div class="sq-avatar" id="d-img-preview" style="width:70px;height:70px;cursor:pointer;border:2px dashed var(--accent); border-radius: 16px;" onclick="triggerUpload('d')">🐶</div>
             <div style="flex:1">
                 <div class="field"><label data-lang="label_name">Jméno</label><input id="d-name"></div>
                 <div class="field"><label data-lang="label_sex">Pohlaví</label><select id="d-sex" onchange="toggleRepro()"><option value="pes" data-lang="sex_male_val">Pes ♂</option><option value="fenka" data-lang="sex_female_val">Fenka ♀</option></select></div>
@@ -204,7 +197,7 @@ header { padding: 20px 0; border-bottom: 1px solid var(--border); margin-bottom:
         <div class="modal-close" onclick="closeOverlay('pup-overlay')">×</div>
         <h2 data-lang="modal_pup_title">Štěně</h2>
         <div style="display:flex; gap:15px; align-items:center; margin-bottom:15px;">
-            <div id="p-img-preview" class="avatar-circle" style="width:70px;height:70px;cursor:pointer;border:2px dashed var(--accent)" onclick="triggerUpload('p')">🐾</div>
+            <div class="sq-avatar" id="p-img-preview" style="width:70px;height:70px;cursor:pointer;border:2px dashed var(--accent); border-radius: 16px;" onclick="triggerUpload('p')">🐾</div>
             <div style="flex:1">
                 <div class="field"><label data-lang="label_name">Jméno</label><input id="p-name"></div>
                 <div class="field"><label data-lang="label_sex">Pohlaví</label><select id="p-sex"><option value="pes" data-lang="sex_male_val">Pes ♂</option><option value="fenka" data-lang="sex_female_val">Fenka ♀</option></select></div>
@@ -248,13 +241,13 @@ header { padding: 20px 0; border-bottom: 1px solid var(--border); margin-bottom:
         <h2 id="pay-title" data-lang="modal_pay_title">Platba</h2>
         <div class="field"><label data-lang="label_amount">Částka (€)</label><input id="pay-amount" type="number"></div>
         <div class="field"><label data-lang="label_method">Způsob</label><select id="pay-method">
-            <option value="Hotově" data-lang="pay_cash">Hotově / Espèces</option>
-            <option value="Převodem" data-lang="pay_transfer">Převodem / Virement</option>
-            <option value="Šekem" data-lang="pay_check">Šekem / Chèque</option>
+            <option value="Hotově" data-lang="pay_cash">Hotově</option>
+            <option value="Převodem" data-lang="pay_transfer">Převodem</option>
+            <option value="Šekem" data-lang="pay_check">Šekem</option>
         </select></div>
         <div class="field"><label data-lang="label_type">Typ</label><select id="pay-type">
-            <option value="záloha" data-lang="pay_deposit">Záloha / Acompte</option>
-            <option value="doplatek" data-lang="pay_balance">Doplatek / Solde</option>
+            <option value="záloha" data-lang="pay_deposit">Záloha</option>
+            <option value="doplatek" data-lang="pay_balance">Doplatek</option>
         </select></div>
         <div class="field"><label data-lang="label_date">Datum</label><input id="pay-date" type="date"></div>
         <button class="btn btn-primary" style="width:100%" onclick="savePayment()" data-lang="btn_save">Uložit</button>
@@ -269,7 +262,6 @@ let db = { dogs: [], puppies: [], payments: [], logo: null, lang: 'cz' };
 let _eDog=null, _ePup=null, _ePupDog=null, _ePay=null, _ePayPup=null, _tempIcon=null, _uploadTarget=null, _tempAtts=[];
 const fmt = n => Number(n||0).toLocaleString(db.lang==='cz'?'cs-CZ':'fr-FR') + " €";
 
-/* LOGIKA CROPPERU */
 const canvas = document.getElementById('crop-canvas');
 const ctx = canvas.getContext('2d');
 const ctn = document.getElementById('canvas-container');
@@ -355,8 +347,8 @@ const translations = {
         sex_male_val: "Pes ♂", sex_female_val: "Fenka ♀", sex_male_short: "Pes", sex_female_short: "Fenka",
         father_manual: "-- Manuální zadání / Jiný --", father_placeholder: "Jméno otce",
         status_free: "Volné", status_res: "Rezervace", status_sold: "Prodáno",
-        pay_cash: "Hotově / Espèces", pay_transfer: "Převodem / Virement", pay_check: "Šekem / Chèque",
-        pay_deposit: "Záloha / Acompte", pay_balance: "Doplatek / Solde",
+        pay_cash: "Hotově", pay_transfer: "Převodem", pay_check: "Šekem",
+        pay_deposit: "Záloha", pay_balance: "Doplatek",
         confirm_del: "Opravdu smazat?", btn_add_pay: "+ Platba", total_paid: "Celkem zaplaceno:", pup_label: "Štěně:"
     },
     fr: {
@@ -386,13 +378,8 @@ function viewAttachment(data, name, type) {
     const content = document.getElementById('viewer-content');
     const t = translations[db.lang];
     const closeBtn = `<button class="viewer-close-btn" onclick="closeViewer()">${t.viewer_close} ✕</button>`;
-    
-    if (type.startsWith('image/')) { 
-        content.innerHTML = `${closeBtn}<img src="${data}" alt="${name}">`; 
-    } 
-    else { 
-        content.innerHTML = `${closeBtn}<iframe src="${data}"></iframe>`; 
-    }
+    if (type.startsWith('image/')) { content.innerHTML = `${closeBtn}<img src="${data}" alt="${name}">`; } 
+    else { content.innerHTML = `${closeBtn}<iframe src="${data}"></iframe>`; }
     document.getElementById('viewer-overlay').classList.add('open');
 }
 function closeViewer() { document.getElementById('viewer-overlay').classList.remove('open'); }
@@ -401,17 +388,14 @@ function setLang(lang) {
     db.lang = lang;
     document.querySelectorAll('.lang-btn').forEach(b => b.classList.remove('active'));
     if(document.getElementById('btn-' + lang)) document.getElementById('btn-' + lang).classList.add('active');
-    
     document.querySelectorAll('[data-lang]').forEach(el => {
         const key = el.getAttribute('data-lang');
         if (translations[lang][key]) el.innerText = translations[lang][key];
     });
-    
     document.querySelectorAll('[data-lang-placeholder]').forEach(el => {
         const key = el.getAttribute('data-lang-placeholder');
         if (translations[lang][key]) el.placeholder = translations[lang][key];
     });
-
     render();
 }
 
@@ -466,60 +450,35 @@ function getFullAge(birthDate) {
 }
 
 function openExportModal(pId) {
-    const pup = db.puppies.find(x=>x.id===pId);
-    if(!pup) return;
+    const pup = db.puppies.find(x=>x.id===pId); if(!pup) return;
     const dog = db.dogs.find(x=>x.id===pup.dogId);
     const payments = db.payments.filter(x=>x.pupId===pId);
     const t = translations[db.lang];
-    
     let html = `
         <div class="preview-header">
-            <div>
-                <h1 style="color:var(--accent)">${t.title}</h1>
-                <p>${new Date().toLocaleDateString(db.lang==='cz'?'cs-CZ':'fr-FR')}</p>
-            </div>
-            ${db.logo ? `<img src="${db.logo}" style="height:60px">` : ''}
+            <div><h1 style="color:var(--accent)">${t.title}</h1><p>${new Date().toLocaleDateString(db.lang==='cz'?'cs-CZ':'fr-FR')}</p></div>
+            ${db.logo ? `<div style="width:70px; height:70px; border-radius:12px; overflow:hidden; border:2px solid var(--accent);"><img src="${db.logo}" style="width:100%; height:100%; object-fit:cover;"></div>` : ''}
         </div>
         <div class="preview-section">
             <h2 style="margin-bottom:10px">${t.modal_pup_title}: ${pup.name || '---'}</h2>
             <div class="preview-grid">
-                <div>
-                    <p><strong>${t.label_sex}:</strong> ${pup.sex === 'pes' ? t.sex_male_val : t.sex_female_val}</p>
-                    <p><strong>${t.label_birth}:</strong> ${pup.birth || '---'}</p>
-                    <p><strong>${t.label_status}:</strong> ${t['status_' + (pup.status==='volné'?'free':(pup.status==='rezervace'?'res':'sold'))]}</p>
-                </div>
-                <div>
-                    <p><strong>${t.modal_dog_title} (${db.lang==='cz'?'Matka':'Mère'}):</strong> ${dog?.name || '---'}</p>
-                    <p><strong>${t.label_father}:</strong> ${pup.father || '---'}</p>
-                </div>
+                <div><p><strong>${t.label_sex}:</strong> ${pup.sex === 'pes' ? t.sex_male_val : t.sex_female_val}</p><p><strong>${t.label_birth}:</strong> ${pup.birth || '---'}</p><p><strong>${t.label_status}:</strong> ${t['status_' + (pup.status==='volné'?'free':(pup.status==='rezervace'?'res':'sold'))]}</p></div>
+                <div><p><strong>${t.modal_dog_title} (${db.lang==='cz'?'Matka':'Mère'}):</strong> ${dog?.name || '---'}</p><p><strong>${t.label_father}:</strong> ${pup.father || '---'}</p></div>
             </div>
         </div>
-        <div class="preview-section">
-            <h3>${t.label_note}</h3>
-            <p>${pup.note || '---'}</p>
-        </div>
+        <div class="preview-section"><h3>${t.label_note}</h3><p>${pup.note || '---'}</p></div>
         <div class="preview-section">
             <h3>${t.tab_finance}</h3>
             <table style="width:100%; border-collapse: collapse; margin-top:10px;">
-                <tr style="background:var(--surface2)">
-                    <th style="text-align:left; padding:8px; border:1px solid #ddd;">${t.label_date}</th>
-                    <th style="text-align:left; padding:8px; border:1px solid #ddd;">${t.label_type}</th>
-                    <th style="text-align:right; padding:8px; border:1px solid #ddd;">${t.label_amount}</th>
-                </tr>
-                ${payments.map(p => `
-                    <tr>
-                        <td style="padding:8px; border:1px solid #ddd;">${new Date(p.date).toLocaleDateString(db.lang==='cz'?'cs-CZ':'fr-FR')}</td>
-                        <td style="padding:8px; border:1px solid #ddd;">${t['pay_'+(p.type==='záloha'?'deposit':'balance')]} (${t['pay_'+(p.method==='Hotově'?'cash':(p.method==='Převodem'?'transfer':'check'))]})</td>
-                        <td style="padding:8px; border:1px solid #ddd; text-align:right;">${fmt(p.amount)}</td>
-                    </tr>
-                `).join('')}
-                <tr style="font-weight:bold">
-                    <td colspan="2" style="padding:8px; border:1px solid #ddd; text-align:right;">${t.total_paid}</td>
-                    <td style="padding:8px; border:1px solid #ddd; text-align:right;">${fmt(payments.reduce((s,x)=>s+x.amount,0))}</td>
-                </tr>
+                <tr style="background:var(--surface2)"><th style="text-align:left; padding:8px; border:1px solid #ddd;">${t.label_date}</th><th style="text-align:left; padding:8px; border:1px solid #ddd;">${t.label_type}</th><th style="text-align:right; padding:8px; border:1px solid #ddd;">${t.label_amount}</th></tr>
+                ${payments.map(p => {
+                    const methodKey = 'pay_' + (p.method === 'Hotově' ? 'cash' : (p.method === 'Převodem' ? 'transfer' : 'check'));
+                    const typeKey = 'pay_' + (p.type === 'záloha' ? 'deposit' : 'balance');
+                    return `<tr><td style="padding:8px; border:1px solid #ddd;">${new Date(p.date).toLocaleDateString(db.lang==='cz'?'cs-CZ':'fr-FR')}</td><td style="padding:8px; border:1px solid #ddd;">${t[typeKey]} (${t[methodKey]})</td><td style="padding:8px; border:1px solid #ddd; text-align:right;">${fmt(p.amount)}</td></tr>`
+                }).join('')}
+                <tr style="font-weight:bold"><td colspan="2" style="padding:8px; border:1px solid #ddd; text-align:right;">${t.total_paid}</td><td style="padding:8px; border:1px solid #ddd; text-align:right;">${fmt(payments.reduce((s,x)=>s+x.amount,0))}</td></tr>
             </table>
-        </div>
-    `;
+        </div>`;
     document.getElementById('export-preview').innerHTML = html;
     document.getElementById('export-overlay').classList.add('open');
 }
@@ -553,9 +512,11 @@ function render() {
         }
         return `<div class="dog-card" data-id="${dog.id}">
             <div class="dog-header ${dog.sex==='pes'?'male':'female'}">
-                <div class="drag-handle">☰</div>
+                <div class="drag-handle-col">☰</div>
                 <div style="display:flex;align-items:center;cursor:pointer;flex:1;" onclick="openDogModal('${dog.id}')">
-                    <div class="avatar-circle" style="margin-right:12px;">${dog.img ? `<img src="${dog.img}">` : `🐶`}</div>
+                    <div class="avatar-col">
+                        <div class="sq-avatar">${dog.img ? `<img src="${dog.img}">` : `🐶`}</div>
+                    </div>
                     <div>
                         <strong>${dog.name}</strong> <span class="sex-badge ${dog.sex==='pes'?'m':'f'}">${dog.sex==='pes'?'♂':'♀'}</span>
                         <div style="font-size:11px;color:var(--text2)">${getFullAge(dog.birth)}</div>
@@ -569,12 +530,13 @@ function render() {
                 ${pups.map(p => {
                     const paid = db.payments.filter(x=>x.pupId===p.id).reduce((s,x)=>s+x.amount,0);
                     const remaining = Math.max(0, p.price - paid);
-                    const statusLabel = t['status_' + (p.status==='volné'?'free':(p.status==='rezervace'?'res':'sold'))];
                     return `<div class="pup-row ${p.sex==='pes'?'male':'female'}" data-id="${p.id}">
-                        <div class="drag-handle" style="font-size:12px;">⋮⋮</div>
+                        <div class="drag-handle-col" style="font-size:12px;">⋮⋮</div>
                         <div style="display:flex;align-items:center;cursor:pointer;flex:1" onclick="openPupModal('${dog.id}','${p.id}')">
-                            <div class="avatar-circle" style="margin-right:12px;">${p.img ? `<img src="${p.img}">` : `🐾`}</div>
-                            <div><strong>${p.name||'---'}</strong><div style="font-size:10px;color:var(--text2)">${getFullAge(p.birth)} • ${statusLabel}</div>${getQuickAttsHtml(p)}</div>
+                            <div class="avatar-col">
+                                <div class="sq-avatar">${p.img ? `<img src="${p.img}">` : `🐾`}</div>
+                            </div>
+                            <div><strong>${p.name||'---'}</strong><div style="font-size:10px;color:var(--text2)">${getFullAge(p.birth)} • ${t['status_' + (p.status==='volné'?'free':(p.status==='rezervace'?'res':'sold'))]}</div>${getQuickAttsHtml(p)}</div>
                         </div>
                         <div class="price-container">
                             <div class="price-ratio">${fmt(paid)} / ${fmt(p.price)}</div>
@@ -588,28 +550,24 @@ function render() {
                     </div>`}).join('')}
             </div>
         </div>`}).join('');
-
     initSortable();
-
     document.getElementById('tab-platby').innerHTML = db.payments.slice().sort((a,b)=>b.date.localeCompare(a.date)).map(p => { 
         const pup = db.puppies.find(x=>x.id===p.pupId);
-        const methodLabel = t['pay_' + (p.method==='Hotově'?'cash':(p.method==='Převodem'?'transfer':'check'))];
-        const typeLabel = t['pay_' + (p.type==='záloha'?'deposit':'balance')];
+        const methodKey = 'pay_' + (p.method === 'Hotově' ? 'cash' : (p.method === 'Převodem' ? 'transfer' : 'check'));
+        const typeKey = 'pay_' + (p.type === 'záloha' ? 'deposit' : 'balance');
         return `<div style="background:#fff;padding:12px;margin-bottom:8px;border-radius:8px;border:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;">
             <div style="cursor:pointer;" onclick="openPayModal('${p.pupId}', '${p.id}')">
-                <div style="font-size:13px; color:var(--text2);">${new Date(p.date).toLocaleDateString(db.lang==='cz'?'cs-CZ':'fr-FR')} • <strong>${methodLabel}</strong></div>
-                <strong>${fmt(p.amount)}</strong> <span style="font-size:11px; color:var(--accent)">(${typeLabel})</span>
+                <div style="font-size:13px; color:var(--text2);">${new Date(p.date).toLocaleDateString(db.lang==='cz'?'cs-CZ':'fr-FR')} • <strong>${t[methodKey]}</strong></div>
+                <strong>${fmt(p.amount)}</strong> <span style="font-size:11px; color:var(--accent)">(${t[typeKey]})</span>
                 <div style="font-size:11px;">${t.pup_label} ${pup?.name||'---'}</div>
             </div>
-            <div style="display:flex; gap:5px;">
-                <button class="btn" style="color:var(--danger); border:none;" onclick="if(confirm('${t.confirm_del}')){db.payments=db.payments.filter(x=>x.id!=='${p.id}');render();}">×</button>
-            </div>
+            <button class="btn" style="color:var(--danger); border:none;" onclick="if(confirm('${t.confirm_del}')){db.payments=db.payments.filter(x=>x.id!=='${p.id}');render();}">×</button>
         </div>` }).join('');
 }
 
 function initSortable() {
     new Sortable(document.getElementById('tab-fenky'), {
-        handle: '.drag-handle', animation: 150, ghostClass: 'sortable-ghost',
+        handle: '.drag-handle-col', animation: 150,
         onEnd: function() {
             const newOrder = Array.from(document.querySelectorAll('#tab-fenky > .dog-card')).map(el => el.dataset.id);
             db.dogs.sort((a, b) => newOrder.indexOf(a.id) - newOrder.indexOf(b.id));
@@ -617,7 +575,7 @@ function initSortable() {
     });
     document.querySelectorAll('.puppies-container').forEach(container => {
         new Sortable(container, {
-            handle: '.drag-handle', animation: 150, ghostClass: 'sortable-ghost',
+            handle: '.drag-handle-col', animation: 150,
             onEnd: function() {
                 const newOrder = Array.from(container.querySelectorAll('.pup-row')).map(el => el.dataset.id);
                 const dogId = container.dataset.dogid;
@@ -656,9 +614,7 @@ function openPupModal(dId, pId=null) {
     const select = document.getElementById('p-father-select');
     select.innerHTML = `<option value="">${t.father_manual}</option>`;
     db.dogs.filter(d => d.sex === 'pes').forEach(dog => {
-        const opt = document.createElement('option');
-        opt.value = dog.name; opt.innerText = dog.name;
-        select.appendChild(opt);
+        const opt = document.createElement('option'); opt.value = dog.name; opt.innerText = dog.name; select.appendChild(opt);
     });
     document.getElementById('p-name').value=p?.name||'';
     document.getElementById('p-sex').value=p?.sex||'pes';
