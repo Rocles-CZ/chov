@@ -6,7 +6,7 @@
 <title>Evidence chovu / Élevage</title>
 <link rel="apple-touch-icon" href="https://rocles-cz.github.io/chov/favicon.png">
 <link rel="icon" type="image/png" href="https://rocles-cz.github.io/chov/favicon.png">
-<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.0/Sortable.min.js"></script>
 <style>
 :root {
@@ -28,7 +28,22 @@ h1, h2, h3 { font-family: 'DM Serif Display', serif; }
 header { padding: 20px 0; border-bottom: 1px solid var(--border); margin-bottom: 24px; display: flex; justify-content: space-between; align-items: center; gap: 10px; }
 .logo { display: flex; align-items: center; gap: 15px; min-width: 150px; }
 .logo-text-wrapper { display: flex; flex-direction: column; }
-.sub-logo-style { font-family: 'DM Serif Display', serif; font-style: italic; font-size: 18px; color: var(--accent); letter-spacing: 1px; margin-top: -4px; opacity: 0.9; }
+
+/* UPRAVENÝ STYL PODNADPISU */
+.sub-logo-style { 
+  font-family: 'DM Sans', sans-serif; 
+  font-size: 13px; 
+  font-weight: 600;
+  color: var(--accent); 
+  letter-spacing: 2px; 
+  margin-top: 2px; 
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  text-transform: uppercase;
+}
+.sub-logo-style span { font-size: 14px; opacity: 0.8; }
+
 .logo-icon { width: 55px; height: 55px; background: var(--accent); border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 28px; color: white; cursor: pointer; overflow: hidden; border: 2px solid var(--border); flex-shrink: 0; }
 .logo-icon img { width: 100%; height: 100%; object-fit: cover; }
 .stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 24px; }
@@ -115,7 +130,7 @@ header { padding: 20px 0; border-bottom: 1px solid var(--border); margin-bottom:
       <div class="logo-icon" id="main-logo" onclick="triggerLogoUpload()">🐕</div>
       <div class="logo-text-wrapper">
         <h1 data-lang="title">Evidence chovu</h1>
-        <div class="sub-logo-style">La Maison Blanche</div>
+        <div class="sub-logo-style">La Maison Blanche <span>🏠</span></div>
       </div>
     </div>
     <div style="display:flex; gap:8px; align-items:center;">
@@ -723,8 +738,43 @@ function closeOverlay(id){document.getElementById(id).classList.remove('open'); 
 function switchTab(t,b){document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active')); b.classList.add('active'); document.querySelectorAll('.section').forEach(s=>s.classList.remove('active')); document.getElementById('tab-'+t).classList.add('active');}
 function deleteDog(){const t = translations[db.lang]; if(confirm(t.confirm_del)){db.dogs=db.dogs.filter(x=>x.id!==_eDog); closeOverlay('dog-overlay'); render();}}
 function deletePup(){const t = translations[db.lang]; if(confirm(t.confirm_del)){db.puppies=db.puppies.filter(x=>x.id!==_ePup); closeOverlay('pup-overlay'); render();}}
-function exportData(){const h=document.documentElement.outerHTML.replace(/let db = \{.*?\};/, `let db = ${JSON.stringify(db)};`); const a=document.createElement("a"); a.href=URL.createObjectURL(new Blob([h],{type:"text/html"})); a.download="evidence.html"; a.click();}
-function importData(e){const r=new FileReader(); r.onload=ev=>{const m=ev.target.result.match(/let db = (\{.*?\});/); if(m){db=JSON.parse(m[1]); setLang(db.lang||'cz');}}; r.readAsText(e.target.files[0]);}
+
+// OPRAVENÉ FUNKCE PRO IMPORT / EXPORT (ROBUSTNĚJŠÍ VERZE)
+function exportData() {
+    const currentDbString = JSON.stringify(db);
+    let htmlContent = document.documentElement.outerHTML;
+    htmlContent = htmlContent.replace(/let db\s*=\s*\{[\s\S]*?\};/, `let db = ${currentDbString};`);
+    const blob = new Blob([htmlContent], { type: "text/html" });
+    const a = document.createElement("a");
+    a.href = URL.createObjectURL(blob);
+    a.download = "evidence_chovu_zaloha.html";
+    a.click();
+}
+
+function importData(e) {
+    const file = e.target.files[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = function(ev) {
+        const content = ev.target.result;
+        const match = content.match(/let db\s*=\s*(\{[\s\S]*?\});/);
+        if (match && match[1]) {
+            try {
+                const importedDb = JSON.parse(match[1]);
+                db = importedDb;
+                setLang(db.lang || 'cz');
+                alert(db.lang === 'cz' ? 'Data byla úspěšně načtena!' : 'Données chargées avec succès !');
+                render();
+            } catch (err) {
+                console.error("Chyba při parsování JSON:", err);
+                alert("Soubor obsahuje chybná data.");
+            }
+        } else {
+            alert("V tomto souboru nebyla nalezena žádná záloha dat.");
+        }
+    };
+    reader.readAsText(file);
+}
 
 setLang('cz');
 </script>
