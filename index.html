@@ -6,7 +6,7 @@
 <title>Evidence chovu / Élevage</title>
 <link rel="apple-touch-icon" href="https://rocles-cz.github.io/chov/favicon.png">
 <link rel="icon" type="image/png" href="https://rocles-cz.github.io/chov/favicon.png">
-<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.0/Sortable.min.js"></script>
 <style>
 :root {
@@ -27,6 +27,8 @@ h1, h2, h3 { font-family: 'DM Serif Display', serif; }
 .save-controls { display: flex; gap: 10px; padding: 12px; background: #fff8e1; border: 2px solid #ffca28; border-radius: var(--radius); margin: 20px 0; align-items: center; }
 header { padding: 20px 0; border-bottom: 1px solid var(--border); margin-bottom: 24px; display: flex; justify-content: space-between; align-items: center; gap: 10px; }
 .logo { display: flex; align-items: center; gap: 15px; min-width: 150px; }
+.logo-text-wrapper { display: flex; flex-direction: column; }
+.sub-logo-style { font-family: 'DM Serif Display', serif; font-style: italic; font-size: 18px; color: var(--accent); letter-spacing: 1px; margin-top: -4px; opacity: 0.9; }
 .logo-icon { width: 55px; height: 55px; background: var(--accent); border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 28px; color: white; cursor: pointer; overflow: hidden; border: 2px solid var(--border); flex-shrink: 0; }
 .logo-icon img { width: 100%; height: 100%; object-fit: cover; }
 .stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 24px; }
@@ -109,7 +111,13 @@ header { padding: 20px 0; border-bottom: 1px solid var(--border); margin-bottom:
     <input type="file" id="importFile" style="display:none" onchange="importData(event)">
   </div>
   <header>
-    <div class="logo"><div class="logo-icon" id="main-logo" onclick="triggerLogoUpload()">🐕</div><h1 data-lang="title">Evidence chovu</h1></div>
+    <div class="logo">
+      <div class="logo-icon" id="main-logo" onclick="triggerLogoUpload()">🐕</div>
+      <div class="logo-text-wrapper">
+        <h1 data-lang="title">Evidence chovu</h1>
+        <div class="sub-logo-style">La Maison Blanche</div>
+      </div>
+    </div>
     <div style="display:flex; gap:8px; align-items:center;">
         <div class="lang-switcher">
             <button class="lang-btn" id="btn-cz" onclick="setLang('cz')">CZ</button>
@@ -340,6 +348,7 @@ const translations = {
         label_price: "Cena (€)", label_status: "Stav", modal_pay_title: "Platba",
         label_amount: "Částka (€)", label_method: "Způsob", label_type: "Typ", label_date: "Datum",
         age_days: "dní", age_year: "rok", age_years_2: "roky", age_years_5: "let", age_month: "měsíc", age_months_2: "měsíce", age_months_5: "měsíců",
+        age_week: "týden", age_weeks_2: "týdny", age_weeks_5: "týdnů",
         unpaid: "Zbývá", paid_full: "✓ Zaplaceno", heat_expect: "Očekávané hárání", mate_expect: "Předpokládaný porod",
         prompt_rename: "Zadejte název přílohy:", default_photo: "Foto", default_doc: "Dokument",
         btn_info: "📄 Info / Export", btn_print: "🖨️ Vytisknout / PDF", btn_email: "📧 Poslat e-mailem",
@@ -361,7 +370,8 @@ const translations = {
         label_price: "Prix (€)", label_status: "Statut", modal_pay_title: "Paiement",
         label_amount: "Montant (€)", label_method: "Méthode", label_type: "Type", label_date: "Date",
         age_days: "jours", age_year: "an", age_years_2: "ans", age_years_5: "ans", age_month: "mois", age_months_2: "mois", age_months_5: "mois",
-        unpaid: "Reste", paid_full: "✓ Payé", heat_expect: "Chaleurs prévues", mate_expect: "Mise bas prévue",
+        age_week: "semaine", age_weeks_2: "semaines", age_weeks_5: "semaines",
+        unpaid: "Reste", paid_full: "Payé", heat_expect: "Chaleurs prévues", mate_expect: "Mise bas prévue",
         prompt_rename: "Entrez le nom de la pièce jointe:", default_photo: "Photo", default_doc: "Document",
         btn_info: "📄 Info / Export", btn_print: "🖨️ Imprimer / PDF", btn_email: "📧 Envoyer par e-mail",
         viewer_close: "FERMER", crop_title: "Modifier la coupe", btn_cancel: "Annuler", btn_done: "Terminé",
@@ -436,34 +446,79 @@ function getQuickAttsHtml(item) {
 }
 
 function getFullAge(birthDate) { 
-    if (!birthDate) return ""; const birth = new Date(birthDate), now = new Date(); 
-    let years = now.getFullYear() - birth.getFullYear(), months = now.getMonth() - birth.getMonth(), days = now.getDate() - birth.getDate();
-    if (days < 0) { months--; const lastMonth = new Date(now.getFullYear(), now.getMonth(), 0); days += lastMonth.getDate(); }
-    if (months < 0) { years--; months += 12; }
+    if (!birthDate) return ""; 
+    const birth = new Date(birthDate), now = new Date(); 
+    let years = now.getFullYear() - birth.getFullYear(), 
+        months = now.getMonth() - birth.getMonth(), 
+        days = now.getDate() - birth.getDate();
+
+    if (days < 0) { 
+        months--; 
+        const lastMonth = new Date(now.getFullYear(), now.getMonth(), 0); 
+        days += lastMonth.getDate(); 
+    }
+    if (months < 0) { 
+        years--; 
+        months += 12; 
+    }
+
     const totalDays = Math.floor((now - birth) / 86400000);
     const t = translations[db.lang];
-    if (totalDays < 0) return ""; if (totalDays < 14) return totalDays + " " + t.age_days;
+    
+    if (totalDays < 0) return ""; 
+    if (totalDays < 14) return totalDays + " " + t.age_days;
+
+    let weeks = Math.floor(days / 7);
+
     let res = [];
-    if (years > 0) res.push(years + " " + (years === 1 ? t.age_year : (years < 5 ? t.age_years_2 : t.age_years_5)));
-    if (months > 0) res.push(months + " " + (months === 1 ? t.age_month : (months < 5 ? t.age_months_2 : t.age_months_5)));
+    if (years > 0) {
+        res.push(years + " " + (years === 1 ? t.age_year : (years < 5 ? t.age_years_2 : t.age_years_5)));
+    }
+    if (months > 0) {
+        res.push(months + " " + (months === 1 ? t.age_month : (months < 5 ? t.age_months_2 : t.age_months_5)));
+    }
+    if (weeks > 0) {
+        res.push(weeks + " " + (weeks === 1 ? t.age_week : (weeks < 5 ? t.age_weeks_2 : t.age_weeks_5)));
+    }
+
     return res.join(", ");
 }
 
 function openExportModal(pId) {
     const pup = db.puppies.find(x=>x.id===pId); if(!pup) return;
-    const dog = db.dogs.find(x=>x.id===pup.dogId);
+    const dog = db.dogs.find(x=>x.id===pup.dogId); // Matka
+    const fatherDog = db.dogs.find(x => x.name === pup.father && x.sex === 'pes'); // Otec (pokud je v db)
     const payments = db.payments.filter(x=>x.pupId===pId);
     const t = translations[db.lang];
+    
+    const motherColor = dog?.color ? ` (${dog.color})` : '';
+    const fatherColor = fatherDog?.color ? ` (${fatherDog.color})` : '';
+
     let html = `
         <div class="preview-header">
             <div><h1 style="color:var(--accent)">${t.title}</h1><p>${new Date().toLocaleDateString(db.lang==='cz'?'cs-CZ':'fr-FR')}</p></div>
-            ${db.logo ? `<div style="width:70px; height:70px; border-radius:12px; overflow:hidden; border:2px solid var(--accent);"><img src="${db.logo}" style="width:100%; height:100%; object-fit:cover;"></div>` : ''}
+            ${db.logo ? `<div style="width:70px; height:70px; border-radius:12px; overflow:hidden; border:2px solid var(--border);"><img src="${db.logo}" style="width:100%; height:100%; object-fit:cover;"></div>` : ''}
         </div>
         <div class="preview-section">
-            <h2 style="margin-bottom:10px">${t.modal_pup_title}: ${pup.name || '---'}</h2>
+            <div style="display:flex; gap:20px; align-items:center; margin-bottom:15px;">
+                <div style="width:100px; height:100px; border-radius:12px; overflow:hidden; border:2px solid #ddd; background:var(--surface2); display:flex; align-items:center; justify-content:center; font-size:40px;">
+                    ${pup.img ? `<img src="${pup.img}" style="width:100%; height:100%; object-fit:cover;">` : '🐾'}
+                </div>
+                <div>
+                    <h2 style="margin:0">${t.modal_pup_title}: ${pup.name || '---'}</h2>
+                    <p style="font-size:14px; color:var(--text2)">${getFullAge(pup.birth)}</p>
+                </div>
+            </div>
             <div class="preview-grid">
-                <div><p><strong>${t.label_sex}:</strong> ${pup.sex === 'pes' ? t.sex_male_val : t.sex_female_val}</p><p><strong>${t.label_birth}:</strong> ${pup.birth || '---'}</p><p><strong>${t.label_status}:</strong> ${t['status_' + (pup.status==='volné'?'free':(pup.status==='rezervace'?'res':'sold'))]}</p></div>
-                <div><p><strong>${t.modal_dog_title} (${db.lang==='cz'?'Matka':'Mère'}):</strong> ${dog?.name || '---'}</p><p><strong>${t.label_father}:</strong> ${pup.father || '---'}</p></div>
+                <div>
+                    <p><strong>${t.label_sex}:</strong> ${pup.sex === 'pes' ? t.sex_male_val : t.sex_female_val}</p>
+                    <p><strong>${t.label_birth}:</strong> ${pup.birth || '---'}</p>
+                    <p><strong>${t.label_status}:</strong> ${t['status_' + (pup.status==='volné'?'free':(pup.status==='rezervace'?'res':'sold'))]}</p>
+                </div>
+                <div>
+                    <p><strong>${db.lang==='cz'?'Matka':'Mère'}:</strong> ${dog?.name || '---'}${motherColor}</p>
+                    <p><strong>${t.label_father}:</strong> ${pup.father || '---'}${fatherColor}</p>
+                </div>
             </div>
         </div>
         <div class="preview-section"><h3>${t.label_note}</h3><p>${pup.note || '---'}</p></div>
@@ -536,7 +591,11 @@ function render() {
                             <div class="avatar-col">
                                 <div class="sq-avatar">${p.img ? `<img src="${p.img}">` : `🐾`}</div>
                             </div>
-                            <div><strong>${p.name||'---'}</strong><div style="font-size:10px;color:var(--text2)">${getFullAge(p.birth)} • ${t['status_' + (p.status==='volné'?'free':(p.status==='rezervace'?'res':'sold'))]}</div>${getQuickAttsHtml(p)}</div>
+                            <div>
+                                <strong>${p.name||'---'}</strong> <span class="sex-badge ${p.sex==='pes'?'m':'f'}">${p.sex==='pes'?'♂':'♀'}</span>
+                                <div style="font-size:10px;color:var(--text2)">${getFullAge(p.birth)} • ${t['status_' + (p.status==='volné'?'free':(p.status==='rezervace'?'res':'sold'))]}</div>
+                                ${getQuickAttsHtml(p)}
+                            </div>
                         </div>
                         <div class="price-container">
                             <div class="price-ratio">${fmt(paid)} / ${fmt(p.price)}</div>
