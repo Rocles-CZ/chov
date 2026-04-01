@@ -1,12 +1,11 @@
 <!DOCTYPE html>
-<html lang="cs">
-<head>
+<html lang="cs"><head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 <title>Evidence chovu / Élevage</title>
 <link rel="apple-touch-icon" href="https://rocles-cz.github.io/chov/favicon.png">
 <link rel="icon" type="image/png" href="https://rocles-cz.github.io/chov/favicon.png">
-<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&amp;family=DM+Sans:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.0/Sortable.min.js"></script>
 <style>
 :root {
@@ -98,7 +97,7 @@ header { padding: 20px 0; border-bottom: 1px solid var(--border); margin-bottom:
     </div>
     <button class="btn btn-primary" onclick="openDogModal()" data-lang="add_dog">+ Přidat dospělého</button>
   </header>
-  <div class="stats" id="stats"></div>
+  <div class="stats" id="stats"><div class="stat"><span class="stat-val">0</span><span class="stat-label">Dospělí</span></div><div class="stat"><span class="stat-val">0</span><span class="stat-label">Štěňata</span></div></div>
   <div class="tabs">
     <button class="tab active" onclick="switchTab('fenky', this)" data-lang="tab_dogs">Psi a štěňata</button>
     <button class="tab" onclick="switchTab('platby', this)" data-lang="tab_finance">Finance</button>
@@ -122,7 +121,7 @@ const GITHUB_CONFIG = {
     path: "index.html"
 };
 
-let db = { dogs: [], puppies: [], payments: [], logo: null, lang: 'cz' };
+let db = {"dogs":[],"puppies":[],"payments":[],"logo":null,"lang":"cz"};
 
 // --- FUNKCE PRO GITHUB ---
 async function setupGitHub() {
@@ -143,7 +142,7 @@ async function exportData() {
 
     const currentDbString = JSON.stringify(db);
     let htmlContent = document.documentElement.outerHTML;
-    htmlContent = htmlContent.replace(/overlay open/g, 'overlay');
+    htmlContent = htmlContent.replace(/overlay/g, 'overlay');
     htmlContent = htmlContent.replace(/let db\s*=\s*\{[\s\S]*?\};/, `let db = ${currentDbString};`);
     const fullContent = "<!DOCTYPE html>\n" + htmlContent;
 
@@ -264,5 +263,6 @@ function switchTab(t,b){document.querySelectorAll('.tab').forEach(x=>x.classList
 
 render();
 </script>
-</body>
-</html>
+
+
+</body></html>
