@@ -387,7 +387,7 @@ const translations = {
         age_week: "semaine", age_weeks_2: "semaines", age_weeks_5: "semaines",
         unpaid: "Reste", paid_full: "Payé", heat_expect: "Chaleurs prévues", mate_expect: "Mise bas prévue",
         prompt_rename: "Entrez le nom de la pièce jointe:", default_photo: "Photo", default_doc: "Document",
-        btn_info: "📄 Info / Export", btn_print: "🖨️ Imprimer / PDF", btn_email: "📧 Envoyer par e-mail",
+        btn_info: "📄 Info / Export", btn_print: "🖨️ Imprimer / PDF", btn_email: "Envoyer par e-mail",
         viewer_close: "FERMER", crop_title: "Modifier la coupe", btn_cancel: "Annuler", btn_done: "Terminé",
         sex_male_val: "Mâle ♂", sex_female_val: "Femelle ♀", sex_male_short: "Mâle", sex_female_short: "Femelle",
         father_manual: "-- Saisie manuelle / Autre --", father_placeholder: "Nom du père",
@@ -761,7 +761,7 @@ function importData(e) {
                 const importedDb = JSON.parse(match[1]);
                 db = importedDb;
                 setLang(db.lang || 'cz');
-                alert(db.lang === 'cz' ? 'Data byla úspěšně načtena!' : 'Données chargées avec succès !');
+                // TADY JSEM TO OPRAVIL - ŽÁDNÝ ALERT TU JIŽ NENÍ
                 render();
             } catch (err) {
                 console.error("Chyba při parsování JSON:", err);
