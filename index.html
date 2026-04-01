@@ -284,6 +284,13 @@ let db = { dogs: [], puppies: [], payments: [], logo: null, lang: 'cz' };
 let _eDog=null, _ePup=null, _ePupDog=null, _ePay=null, _ePayPup=null, _tempIcon=null, _uploadTarget=null, _tempAtts=[];
 const fmt = n => Number(n||0).toLocaleString(db.lang==='cz'?'cs-CZ':'fr-FR') + " €";
 
+// --- GITHUB CONFIG ---
+const GITHUB_CONFIG = {
+    get token() { return localStorage.getItem('gh_token'); },
+    get repo() { return localStorage.getItem('gh_repo'); },
+    path: "index.html"
+};
+
 const canvas = document.getElementById('crop-canvas');
 const ctx = canvas.getContext('2d');
 const ctn = document.getElementById('canvas-container');
@@ -738,11 +745,74 @@ function switchTab(t,b){document.querySelectorAll('.tab').forEach(x=>x.classList
 function deleteDog(){const t = translations[db.lang]; if(confirm(t.confirm_del)){db.dogs=db.dogs.filter(x=>x.id!==_eDog); closeOverlay('dog-overlay'); render();}}
 function deletePup(){const t = translations[db.lang]; if(confirm(t.confirm_del)){db.puppies=db.puppies.filter(x=>x.id!==_ePup); closeOverlay('pup-overlay'); render();}}
 
-function exportData() {
+// --- NOVÁ FUNKCE SETUP GITHUB ---
+function setupGitHub() {
+    const t = prompt("Zadejte váš GitHub Personal Access Token:");
+    const r = prompt("Zadejte cestu k repozitáři (např. rocles-cz/chov):");
+    if (t && r) {
+        localStorage.setItem('gh_token', t.trim());
+        localStorage.setItem('gh_repo', r.trim());
+        alert("Nastavení uloženo. Zkuste nyní uložit data znovu.");
+    }
+}
+
+// --- UPRAVENÁ FUNKCE EXPORT (GitHub + File) ---
+async function exportData() {
+    // Pokud není nastaven GitHub, zkusíme ho nastavit
+    if (!GITHUB_CONFIG.token || !GITHUB_CONFIG.repo) {
+        if(confirm("Chcete nastavit automatické ukládání na GitHub? (Pokud ne, soubor se jen stáhne jako dřív)")) {
+            setupGitHub();
+            return;
+        }
+    }
+
     const currentDbString = JSON.stringify(db);
     let htmlContent = document.documentElement.outerHTML;
+    
+    // Před uložením vyčistíme "open" třídy z overlayů
+    htmlContent = htmlContent.replace(/overlay open/g, 'overlay');
+    // Nahradíme databázi v kódu
     htmlContent = htmlContent.replace(/let db\s*=\s*\{[\s\S]*?\};/, `let db = ${currentDbString};`);
-    const blob = new Blob([htmlContent], { type: "text/html" });
+    
+    const fullContent = "<!DOCTYPE html>\n" + htmlContent;
+
+    // Pokud máme GitHub údaje, zkusíme uložit online
+    if (GITHUB_CONFIG.token && GITHUB_CONFIG.repo) {
+        try {
+            // 1. Získání SHA souboru
+            const res = await fetch(`https://api.github.com/repos/${GITHUB_CONFIG.repo}/contents/${GITHUB_CONFIG.path}`, {
+                headers: { "Authorization": `token ${GITHUB_CONFIG.token}` }
+            });
+            
+            if (!res.ok) throw new Error("Chyba při spojení s GitHubem.");
+            const fileData = await res.json();
+
+            // 2. Update souboru
+            const updateRes = await fetch(`https://api.github.com/repos/${GITHUB_CONFIG.repo}/contents/${GITHUB_CONFIG.path}`, {
+                method: "PUT",
+                headers: {
+                    "Authorization": `token ${GITHUB_CONFIG.token}`,
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    message: "Update evidence: " + new Date().toLocaleString(),
+                    content: btoa(unescape(encodeURIComponent(fullContent))),
+                    sha: fileData.sha
+                })
+            });
+
+            if (updateRes.ok) {
+                alert(db.lang === 'cz' ? "✅ Data úspěšně uložena na GitHub!" : "✅ Données sauvegardées sur GitHub !");
+                return; // Úspěch, končíme
+            }
+        } catch (err) {
+            console.error(err);
+            alert("⚠️ Online uložení selhalo. Proběhne klasické stažení souboru.");
+        }
+    }
+
+    // Klasické stažení jako záloha (pokud selže GitHub nebo není nastaven)
+    const blob = new Blob([fullContent], { type: "text/html" });
     const a = document.createElement("a");
     a.href = URL.createObjectURL(blob);
     a.download = "evidence_chovu_zaloha.html";
@@ -761,7 +831,7 @@ function importData(e) {
                 const importedDb = JSON.parse(match[1]);
                 db = importedDb;
                 setLang(db.lang || 'cz');
-                // OZNÁMENÍ BYLO ODSTRANĚNO
+                alert(db.lang === 'cz' ? 'Data byla úspěšně načtena!' : 'Données chargées avec succès !');
                 render();
             } catch (err) {
                 console.error("Chyba při parsování JSON:", err);
