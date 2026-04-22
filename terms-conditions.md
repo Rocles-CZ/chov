@@ -1,19 +1,4 @@
-￼
-
-While App Privacy Policy Generator is completely FREE, it takes money to keep it running and updated. If you are able to, then consider contributing by:
-	1	Sponsoring me on Github 👨🏻‍💻
-	2	Buying me a cup of ☕
-	3	
-If you are unable to contribute with funds, consider sharing it with your friends: Bluesky, Linkedin, Facebook, Reddit
-...or adding a review/comment in the project's GuestBook 🤗
-Now sit back and choose the type of document you want to generate. Read FAQ
-The accuracy of the generated privacy policy and terms & conditions on this website is not legally binding. Use at your own risk.
-Read the full Disclaimer here
-
-PreviousPrivacy PolicyTerms & Conditions
-
-Terms & Conditions
-Terms & Conditions
+# Terms & Conditions
 These terms and conditions apply to the Evidence chovu app (hereby referred to as "Application") for mobile devices that was created by Petr SLIVKA (hereby referred to as "Service Provider") as a Freemium service.
 
 Upon downloading or utilizing the Application, you are automatically agreeing to the following terms. It is strongly advised that you thoroughly read and understand these terms prior to using the Application.
