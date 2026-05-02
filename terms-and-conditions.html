@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Terms & Conditions – Chov App</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            font-size: 16px;
+            line-height: 1.7;
+            color: #1a1a1a;
+            background: #f9f9f9;
+        }
+        .container {
+            max-width: 760px;
+            margin: 0 auto;
+            padding: 40px 24px 80px;
+        }
+        .lang-switch {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 32px;
+        }
+        .lang-btn {
+            padding: 6px 16px;
+            border-radius: 20px;
+            border: 1px solid #ccc;
+            background: #fff;
+            cursor: pointer;
+            font-size: 14px;
+            color: #555;
+            transition: all 0.2s;
+        }
+        .lang-btn.active {
+            background: #e8635a;
+            border-color: #e8635a;
+            color: #fff;
+            font-weight: 600;
+        }
+        h1 {
+            font-size: 28px;
+            font-weight: 800;
+            color: #e8635a;
+            margin-bottom: 6px;
+        }
+        .subtitle {
+            font-size: 14px;
+            color: #888;
+            margin-bottom: 36px;
+        }
+        h2 {
+            font-size: 18px;
+            font-weight: 700;
+            margin: 32px 0 10px;
+            color: #222;
+        }
+        p { margin-bottom: 12px; color: #333; }
+        ul { margin: 8px 0 12px 20px; }
+        li { margin-bottom: 6px; color: #333; }
+        .highlight {
+            background: #fff4f3;
+            border-left: 4px solid #e8635a;
+            padding: 16px 20px;
+            border-radius: 0 8px 8px 0;
+            margin: 24px 0;
+        }
+        .highlight strong { color: #e8635a; }
+        a { color: #e8635a; text-decoration: none; }
+        a:hover { text-decoration: underline; }
+        .updated {
+            font-size: 13px;
+            color: #999;
+            margin-top: 48px;
+            padding-top: 24px;
+            border-top: 1px solid #eee;
+        }
+        [lang-content] { display: none; }
+        [lang-content].active { display: block; }
+    </style>
+</head>
+<body>
+<div class="container">
+
+    <div class="lang-switch">
+        <button class="lang-btn active" onclick="setLang('cs')">🇨🇿 Česky</button>
+        <button class="lang-btn" onclick="setLang('en')">🇬🇧 English</button>
+    </div>
+
+    <!-- ===================== CZECH ===================== -->
+    <div lang-content="cs" class="active">
+        <h1>Podmínky použití</h1>
+        <p class="subtitle">Chov App · cz.rocles.chov.android</p>
+
+        <div class="highlight">
+            <strong>Stručně:</strong> Aplikaci používáte na vlastní odpovědnost. Data jsou uložena jen na vašem zařízení a jejich zálohu máte ve vlastních rukou.
+        </div>
+
+        <h2>1. Přijetí podmínek</h2>
+        <p>Stažením nebo používáním aplikace Chov App souhlasíte s těmito podmínkami použití. Pokud s nimi nesouhlasíte, aplikaci prosím nepoužívejte.</p>
+
+        <h2>2. Popis služby</h2>
+        <p>Chov App je mobilní aplikace určená pro evidenci chovu psů a dalších zvířat. Umožňuje sledovat zdravotní záznamy, krytí, vrhy, fotografie a finanční přehledy. Aplikace je dostupná ve volné verzi s omezenými funkcemi a v prémiové verzi odemčené předplatným.</p>
+
+        <h2>3. Uživatelský účet</h2>
+        <p>Aplikace nevyžaduje registraci ani vytvoření účtu. Veškerá data jsou uložena lokálně na vašem zařízení. Za ochranu zařízení a přístup k datům zodpovídáte vy.</p>
+
+        <h2>4. Předplatné a platby</h2>
+        <p>Aplikace nabízí volitelné roční předplatné (Chov Premium), které odemyká prémiové funkce. Platby jsou zpracovány výhradně prostřednictvím <strong>Google Play</strong>. Na předplatné se vztahují podmínky společnosti Google:</p>
+        <ul>
+            <li>Předplatné se automaticky obnovuje, pokud ho nezrušíte alespoň 24 hodin před koncem aktuálního období.</li>
+            <li>Správu a zrušení předplatného provedete v nastavení Google Play.</li>
+            <li>Vrácení peněz se řídí zásadami Google Play.</li>
+        </ul>
+        <p>Vývojář nenese odpovědnost za průběh platebních transakcí, které jsou plně v kompetenci Googlu.</p>
+
+        <h2>5. Omezení odpovědnosti</h2>
+        <p>Aplikace je poskytována „tak jak je" bez jakýchkoli záruk. Vývojář neodpovídá za:</p>
+        <ul>
+            <li>Ztrátu dat v důsledku poruchy zařízení, přeinstalování aplikace nebo vymazání dat.</li>
+            <li>Nepřesnosti v záznamech způsobené chybou uživatele.</li>
+            <li>Přerušení dostupnosti aplikace z důvodu aktualizací nebo technických problémů.</li>
+        </ul>
+        <p>Důrazně doporučujeme pravidelně zálohovat svá data pomocí funkce exportu v aplikaci.</p>
+
+        <h2>6. Duševní vlastnictví</h2>
+        <p>Veškerý kód, grafika a obsah aplikace jsou majetkem vývojáře a jsou chráněny autorským právem. Aplikaci ani její části není dovoleno kopírovat, upravovat, dekompilovat ani distribuovat bez písemného souhlasu vývojáře.</p>
+
+        <h2>7. Zakázané použití</h2>
+        <p>Zavazujete se, že nebudete:</p>
+        <ul>
+            <li>Aplikaci používat k nezákonnému účelu.</li>
+            <li>Pokoušet se o reverzní inženýrství nebo obcházení prémiových funkcí.</li>
+            <li>Sdílet přístup k prémiovým funkcím s dalšími osobami způsobem, který obchází platební systém.</li>
+        </ul>
+
+        <h2>8. Změny podmínek</h2>
+        <p>Vývojář si vyhrazuje právo tyto podmínky kdykoli upravit. V případě podstatné změny bude aktualizováno datum níže. Dalším používáním aplikace po změně podmínek vyjadřujete souhlas s jejich novou verzí.</p>
+
+        <h2>9. Rozhodné právo</h2>
+        <p>Tyto podmínky se řídí právním řádem České republiky. Případné spory budou řešeny příslušnými soudy v České republice.</p>
+
+        <h2>10. Kontakt</h2>
+        <p>Dotazy k těmto podmínkám zasílejte na: <a href="mailto:support.breeding@icloud.com">support.breeding@icloud.com</a></p>
+
+        <p class="updated">Poslední aktualizace: květen 2026</p>
+    </div>
+
+    <!-- ===================== ENGLISH ===================== -->
+    <div lang-content="en">
+        <h1>Terms & Conditions</h1>
+        <p class="subtitle">Chov App · cz.rocles.chov.android</p>
+
+        <div class="highlight">
+            <strong>In short:</strong> You use the app at your own responsibility. All data is stored only on your device and it is your responsibility to back it up.
+        </div>
+
+        <h2>1. Acceptance of Terms</h2>
+        <p>By downloading or using Chov App, you agree to these Terms & Conditions. If you do not agree, please do not use the app.</p>
+
+        <h2>2. Description of Service</h2>
+        <p>Chov App is a mobile application for managing dog and animal breeding records. It allows you to track health records, matings, litters, photos, and financial overviews. The app is available in a free version with limited features and a premium version unlocked by subscription.</p>
+
+        <h2>3. User Account</h2>
+        <p>The app does not require registration or account creation. All data is stored locally on your device. You are responsible for securing your device and access to your data.</p>
+
+        <h2>4. Subscription and Payments</h2>
+        <p>The app offers an optional annual subscription (Chov Premium) that unlocks premium features. Payments are processed exclusively via <strong>Google Play</strong>. The subscription is subject to Google's terms:</p>
+        <ul>
+            <li>Subscriptions auto-renew unless cancelled at least 24 hours before the end of the current period.</li>
+            <li>You can manage and cancel your subscription in Google Play settings.</li>
+            <li>Refunds are governed by Google Play's refund policy.</li>
+        </ul>
+        <p>The developer is not responsible for payment transactions, which are fully managed by Google.</p>
+
+        <h2>5. Limitation of Liability</h2>
+        <p>The app is provided "as is" without any warranties. The developer is not liable for:</p>
+        <ul>
+            <li>Loss of data due to device failure, app reinstallation, or data deletion.</li>
+            <li>Inaccuracies in records caused by user error.</li>
+            <li>Interruption of app availability due to updates or technical issues.</li>
+        </ul>
+        <p>We strongly recommend regularly backing up your data using the export feature in the app.</p>
+
+        <h2>6. Intellectual Property</h2>
+        <p>All code, graphics, and content in the app are the property of the developer and are protected by copyright. You may not copy, modify, decompile, or distribute the app or any part of it without the developer's written consent.</p>
+
+        <h2>7. Prohibited Use</h2>
+        <p>You agree not to:</p>
+        <ul>
+            <li>Use the app for any unlawful purpose.</li>
+            <li>Attempt to reverse-engineer or circumvent premium features.</li>
+            <li>Share access to premium features with others in a way that bypasses the payment system.</li>
+        </ul>
+
+        <h2>8. Changes to Terms</h2>
+        <p>The developer reserves the right to modify these terms at any time. In the event of a material change, the date below will be updated. Continued use of the app after a change constitutes acceptance of the new terms.</p>
+
+        <h2>9. Governing Law</h2>
+        <p>These terms are governed by the laws of the Czech Republic. Any disputes will be resolved by the competent courts of the Czech Republic.</p>
+
+        <h2>10. Contact</h2>
+        <p>Questions about these terms can be sent to: <a href="mailto:support.breeding@icloud.com">support.breeding@icloud.com</a></p>
+
+        <p class="updated">Last updated: May 2026</p>
+    </div>
+
+</div>
+
+<script>
+    function setLang(lang) {
+        document.querySelectorAll('[lang-content]').forEach(el => {
+            el.classList.toggle('active', el.getAttribute('lang-content') === lang);
+        });
+        document.querySelectorAll('.lang-btn').forEach(btn => {
+            btn.classList.toggle('active', btn.textContent.includes(lang === 'cs' ? 'Česky' : 'English'));
+        });
+    }
+</script>
+</body>
+</html>
